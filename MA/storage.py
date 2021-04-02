@@ -16,7 +16,7 @@ import pandas as pd
 import weather_station as ws 
 
 messurments = {
-"mounth" : ["may"],
+"month" : ["may"],
 "day_of_month" : [1,2,3,4,5,6,7],
 "voltage" : [5,2,6,3],
 "amp" : [2]
@@ -26,29 +26,27 @@ messurments = {
 def PUT(messurments : dict):
     liste =  messurments.get("month")
     month = liste[0]
-   
     #col  = [liste[0] for i in range (len(messurments.get("day_of_month")))]
-
-    dataframe = pd.DataFrame.from_dict(messurments,orient='index')#, columns = col)
+   # dataframe = pd.DataFrame.from_dict(messurments)#, columns = col)
+    dataframe = pd.concat([pd.Series(v, name=k) for k, v in messurments.items()], axis=1)
     dataframe = dataframe.fillna("-")
     #dataframe = dataframe.drop(index = "month")
-    
-    dataframe.to_csv("database\%s.csv" % (month), encoding='utf-8')
+    dataframe.to_csv("database\%s.csv" % (month), encoding='utf-8' ,index = False)
  
 
 def GET(month : str):
     data = pd.read_csv("database\%s.csv" % (month))
-    location_data = data.iloc[0,1]
-    month_data = data.iloc[1,1]
-    data = data.drop(index = [0,1])
+    location_data = data.iloc[0,0]
+    month_data = data.iloc[0,1]
+    data = data.drop(columns = ['location','month'])
     print("Weather data for %s in %s " %(location_data, month_data))
+    dictionary = pd.DataFrame.to_dict(data)
     print(data)
+    return dictionary
 
     
 
 #PUT(messurments)
-
-data= ws.collect_weather_data()
+data= ws.collect_weather_data(30)
 PUT(data)
 GET("may")
-#print(type(data))
