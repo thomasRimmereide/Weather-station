@@ -38,4 +38,4 @@ def collect_weather_data(amount_of_days_to_log=10):
         data_from_station["temperature"].append(bergen_station.temperature)
 
     bergen_station.shut_down()
-
+    return data_from_station
