@@ -11,45 +11,71 @@ Første omgang:
 Kunne lagre data fra en dictonary (feltnavn står i station.py) til en CSV fil.
 
 """
-import csv
+
 import pandas as pd
+from pandas.errors import EmptyDataError
 import weather_station as ws
 
-messurments = {
-    "month": ["may", "may", "june"],
+# Dummy data for development
+measurements = {
+    "month": ["May", "May", "June"],
     "location": ["bergen"],
-    "day_of_month": [1, 2, 3, 4, 5, 6, 7],
+    "year": [2012, 2013, 2013, 2014, 2015, 2016, 2017],
     "voltage": [5, 2, 6, 3],
     "amp": [2]
-
 }
 
 
-def PUT(messurments: dict):
-    liste = messurments.get("month")
-    month = liste[0].lower()
-    dataframe = pd.concat([pd.Series(v, name=k) for k, v in messurments.items()], axis=1)
+def put(weather_station_data: dict):
+    """Put data from weather_station into database"""
+    dataframe = pd.concat([pd.Series(v, name=k) for k, v in weather_station_data.items()], axis=1)
     dataframe = dataframe.fillna("-")
-    #dataframe.to_csv("database\%s.csv" % month,mode ='a', encoding='utf-8', index=False)
-    dataframe.to_csv("database\\allData.csv", mode='a', encoding='utf-8', index=False)
+    dataframe.to_csv("database\Data.csv", mode='a', encoding='utf-8', index=False)
 
 
-def GET(month: str):
-
-    #data = pd.read_csv("database\%s.csv" % month)
-    data = pd.read_csv("database\\allData.csv")
-    if month == "all":
-        print(data)
-    location_data = data.iloc[0, 0]
-    month_data = data.iloc[0, 1]
-    contains_month = data[data['month'].str.contains(month)]
-    #contains_month = data.drop(columns=['location', 'month'])
-    print("Weather data for %s in %s " % (location_data, month_data))
-    print(contains_month.reset_index(drop=True))
-
-
+def get(request):
+    """Get the requested data from database"""
+    try:
+        weather_data = pd.read_csv("database/Data.csv")
+        if request == "all":
+            show_request(weather_data)
+        elif isinstance(request, int):
+            show_request(get_year(weather_data, request))
+        else:
+            show_request(get_month(weather_data, request.capitalize()))
+    except EmptyDataError:
+        print("database is empty")
 
 
-# data = ws.collect_weather_data(10)
-PUT(messurments)
-GET('all')
+def show_request(weather_data):
+    """Print the get request to terminal or error message if not in database"""
+    if weather_data.empty:
+        print("The requested data is not found in database")
+    else:
+        location_data = weather_data.iloc[0, 0]
+        month_data = weather_data.iloc[0, 1]
+        print("Weather data for %s in %s " % (location_data, month_data))
+        print(weather_data.reset_index(drop=True))
+
+
+def get_month(weather_data, month: str):
+    """Return all data in database for chosen month """
+    return weather_data[weather_data['month'].str.contains(month)]
+
+
+def get_year(weather_data, day: int):
+    """Return all data in database for chosen year"""
+    return weather_data[weather_data['year'].astype(str).str.contains(str(str(day)))]
+
+
+def new_database():
+    """Emptying the database"""
+    database = open("database/Data.csv", 'r+')
+    database.truncate(0)
+    database.close()
+
+
+#data = ws.collect_weather_data(10)
+#put(data)
+#new_database()
+#get('may')
