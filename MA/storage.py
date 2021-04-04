@@ -36,7 +36,7 @@ def put(weather_station_data: dict):
 def get(request):
     """Get the requested data from database"""
     try:
-        weather_data = pd.read_csv("database/Data.csv")
+        weather_data = pd.read_csv("Data.csv")
         if request == "all":
             show_request(weather_data)
         elif isinstance(request, int):
@@ -70,12 +70,12 @@ def get_year(weather_data, day: int):
 
 def new_database():
     """Emptying the database"""
-    database = open("database/Data.csv", 'r+')
+    database = open("Data.csv", 'r+')
     database.truncate(0)
     database.close()
 
 
-#data = ws.collect_weather_data(10)
-#put(data)
-#new_database()
-#get('may')
+# data = ws.collect_weather_data(60)
+# put(measurements)
+# new_database()
+get('all')
