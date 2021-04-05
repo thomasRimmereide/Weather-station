@@ -1,9 +1,8 @@
 from station import StationSimulator
 
 from time import sleep
-
-from socket import socket, AF_INET, SOCK_DGRAM
 import socket
+import cPickle as pickle
 
 """
 Leser info fra station.py, skal egentlig bare bruke info derfra, og sende det videre til storage.py i den formen vi syntes
@@ -74,10 +73,9 @@ except socket.error as e:
 
 Response = ClientSocket.recv(1024)
 while True:
-    Input = input('Say Something: ')
-    ClientSocket.send(str.encode(Input))
-    Response = ClientSocket.recv(1024)
-    print(Response.decode('utf-8'))
+    sleep(60)
+    data_string = pickle.dumps(collect_weather_data())
+    ClientSocket.send(data_string)
 
 ClientSocket.close()
 
