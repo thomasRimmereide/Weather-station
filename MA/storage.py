@@ -77,7 +77,7 @@ def new_database():
     database.close()
 
 
-#data = ws.collect_weather_data(60)
-put(measurements)
+# data = ws.collect_weather_data(60)
+# put(measurements)
 # new_database()
 get('all')
