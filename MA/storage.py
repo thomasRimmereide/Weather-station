@@ -88,10 +88,10 @@ def dateTime():
     #df['date'] = df['date'].dt.strftime('%d/%m/%Y')
     print(df)
     print(df['date'].between('01-05-1981', '05-05-1981'))
-    print(df.loc[df['date'].between('1981-05-01','1981-05-05')])#'01-05-1981', '01-06-1981', inclusive=False)])
+    print(df.loc[df['date'].between('1981-05-01','1981-05-05')])
 
-dateTime()
+#dateTime()
 #data = ws.collect_weather_data(180)
 #put(data)
 #new_database()
-#get('all')
+get('all')
