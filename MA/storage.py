@@ -15,6 +15,9 @@ Kunne lagre data fra en dictonary (feltnavn står i station.py) til en CSV fil.
 import pandas as pd
 from pandas.errors import EmptyDataError
 import weather_station as ws
+import socket
+import os
+from _thread import *
 
 # Dummy data for development
 measurements = {
@@ -96,6 +99,42 @@ def dateTime():
 #new_database()
 #get('all')
 
+
+
+ServerSocket = socket.socket()
+host = '127.0.0.1'
+port = 1233
+ThreadCount = 0
+try:
+    ServerSocket.bind((host, port))
+except socket.error as e:
+    print(str(e))
+
+print('Waitiing for a Connection..')
+ServerSocket.listen(5)
+
+
+def threaded_client(connection):
+    connection.send(str.encode('Welcome to the database!!!!!'))
+    while True:
+        data = connection.recv(2048)
+        reply = 'Server Says: ' + data.decode('utf-8')
+        if not data:
+            break
+        connection.sendall(str.encode(reply))
+    connection.close()
+
+while True:
+    Client, address = ServerSocket.accept()
+    print('Connected to: ' + address[0] + ':' + str(address[1]))
+    start_new_thread(threaded_client, (Client, ))
+    ThreadCount += 1
+    print('Thread Number: ' + str(ThreadCount))
+ServerSocket.close()
+
+
+
+'''
 from socket import socket, AF_INET, SOCK_DGRAM
 from datetime import datetime
 
@@ -126,5 +165,5 @@ while True:
         ##send acknowledgement to client that you have connected to the server
         sock.sendto((f'Server: ACK'.encode()), addr)
     else:
-        ##
         sock.sendto(('Server: You have to write something buddy!'.encode()), addr)
+'''
