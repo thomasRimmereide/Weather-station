@@ -15,7 +15,20 @@ weather_station -   client
 Gjerne se på tidligere oppgaver:)
 """
 from socket import socket, AF_INET, SOCK_DGRAM
-#import storage
+
+
+# import storage
+
+def threaded_client(connection):
+    connection.send(str.encode('Welcome to the Server'))
+    while True:
+        data = connection.recv(2048)
+        reply = 'Server Says: ' + data.decode('utf-8')
+        if not data:
+            break
+        connection.sendall(str.encode(reply))
+    connection.close()
+
 
 """
 def welcome():
@@ -32,7 +45,7 @@ while {(text := input('> ').lower()) != 'shut down'}:
 
 
 
-"""
+
 def tisstass():
     sock = socket()
     sock.connect(storage)
@@ -44,4 +57,4 @@ def tisstass():
     sock.close()
 """
 
-#welcome()
+# welcome()
