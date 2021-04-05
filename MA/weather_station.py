@@ -3,7 +3,7 @@ from station import StationSimulator
 from time import sleep
 
 from socket import socket, AF_INET, SOCK_DGRAM
-
+import socket
 
 """
 Leser info fra station.py, skal egentlig bare bruke info derfra, og sende det videre til storage.py i den formen vi syntes

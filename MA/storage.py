@@ -14,7 +14,7 @@ Kunne lagre data fra en dictonary (feltnavn står i station.py) til en CSV fil.
 
 import pandas as pd
 from pandas.errors import EmptyDataError
-import weather_station as ws
+
 import socket
 import os
 from _thread import *
@@ -111,7 +111,7 @@ except socket.error as e:
     print(str(e))
 
 print('Waitiing for a Connection..')
-ServerSocket.listen(5)
+ServerSocket.listen(5000)
 
 
 def threaded_client(connection):
