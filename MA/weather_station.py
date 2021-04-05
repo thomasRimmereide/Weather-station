@@ -62,19 +62,28 @@ def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1
     return data_from_station
 
 
-def threaded_client(connection):
-    connection.send(str.encode('Welcome to the Server'))
-    while True:
-        data = connection.recv(2048)
-        reply = 'Server Says: ' + data.decode('utf-8')
-        if not data:
-            break
-        connection.sendall(str.encode(reply))
-    connection.close()
+ClientSocket = socket.socket()
+host = '127.0.0.1'
+port = 1233
+
+print('Waiting for connection')
+try:
+    ClientSocket.connect((host, port))
+except socket.error as e:
+    print(str(e))
+
+Response = ClientSocket.recv(1024)
+while True:
+    Input = input('Say Something: ')
+    ClientSocket.send(str.encode(Input))
+    Response = ClientSocket.recv(1024)
+    print(Response.decode('utf-8'))
+
+ClientSocket.close()
 
 
 socket = socket(AF_INET, SOCK_DGRAM)
-
+"""
 while {(text := input('> ').lower()) != 'shut down'}:
     socket.sendto(text.encode(), ('localhost', 55555))
     msg, addr = socket.recvfrom(2048)
@@ -82,3 +91,4 @@ while {(text := input('> ').lower()) != 'shut down'}:
 
 
 # print(collect_weather_data(90, 1999, "November", 25))
+"""
