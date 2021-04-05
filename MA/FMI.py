@@ -19,15 +19,26 @@ from socket import socket, AF_INET, SOCK_DGRAM
 
 # import storage
 
-def threaded_client(connection):
-    connection.send(str.encode('Welcome to the Server'))
-    while True:
-        data = connection.recv(2048)
-        reply = 'Server Says: ' + data.decode('utf-8')
-        if not data:
-            break
-        connection.sendall(str.encode(reply))
-    connection.close()
+import socket
+
+ClientSocket = socket.socket()
+host = '127.0.0.1'
+port = 1233
+
+print('Waiting for connection')
+try:
+    ClientSocket.connect((host, port))
+except socket.error as e:
+    print(str(e))
+
+Response = ClientSocket.recv(1024)
+while True:
+    Input = input('Say Something: ')
+    ClientSocket.send(str.encode(Input))
+    Response = ClientSocket.recv(1024)
+    print(Response.decode('utf-8'))
+
+ClientSocket.close()
 
 
 """
