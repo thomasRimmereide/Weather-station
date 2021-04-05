@@ -4,6 +4,7 @@ from time import sleep
 
 from socket import socket, AF_INET, SOCK_DGRAM
 
+
 """
 Leser info fra station.py, skal egentlig bare bruke info derfra, og sende det videre til storage.py i den formen vi syntes
 er best. Tenker vi kan starte med å bruke en csv-fil til å lagre dataen, så hvis vi får tid kan vi bruke mongoDB,
@@ -59,6 +60,17 @@ def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1
         current_day += 1
     bergen_station.shut_down()
     return data_from_station
+
+
+def threaded_client(connection):
+    connection.send(str.encode('Welcome to the Server'))
+    while True:
+        data = connection.recv(2048)
+        reply = 'Server Says: ' + data.decode('utf-8')
+        if not data:
+            break
+        connection.sendall(str.encode(reply))
+    connection.close()
 
 
 socket = socket(AF_INET, SOCK_DGRAM)
