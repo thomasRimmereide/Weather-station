@@ -79,8 +79,19 @@ def new_database():
     database.truncate(0)
     database.close()
 
+# move to put
+def dateTime():
+    df = pd.read_csv("Data.csv")
 
-# data = ws.collect_weather_data(60)
-# put(measurements)
-# new_database()
-get('all')
+    df['date'] = df['date'] = pd.to_datetime(df['date'])
+    '''snu etter søk ellers funker ikke den Amrikanske dritten'''
+    #df['date'] = df['date'].dt.strftime('%d/%m/%Y')
+    print(df)
+    print(df['date'].between('01-05-1981', '05-05-1981'))
+    print(df.loc[df['date'].between('1981-05-01','1981-05-05')])#'01-05-1981', '01-06-1981', inclusive=False)])
+
+dateTime()
+#data = ws.collect_weather_data(180)
+#put(data)
+#new_database()
+#get('all')

@@ -63,4 +63,4 @@ def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1
     return data_from_station
 
 
-print(collect_weather_data(90, 1999, "November", 25))
+# print(collect_weather_data(90, 1999, "November", 25))
