@@ -30,7 +30,7 @@ def put(weather_station_data: dict):
     """Put data from weather_station into database"""
     dataframe = pd.concat([pd.Series(v, name=k) for k, v in weather_station_data.items()], axis=1)
     dataframe = dataframe.fillna("-")
-    dataframe.to_csv("database\Data.csv", mode='a', encoding='utf-8', index=False)
+    dataframe.to_csv("Data.csv", mode='a', encoding='utf-8', index=False)
 
 
 def get(request):

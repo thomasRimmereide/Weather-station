@@ -142,3 +142,7 @@ class StationSimulator:
         """Current rain."""
         with self._lock:
             return round(self._rain, 2)
+
+    @month.setter
+    def month(self, value):
+        self._month = value
