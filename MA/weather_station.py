@@ -2,6 +2,8 @@ from station import StationSimulator
 
 from time import sleep
 
+from socket import socket, AF_INET, SOCK_DGRAM
+
 """
 Leser info fra station.py, skal egentlig bare bruke info derfra, og sende det videre til storage.py i den formen vi syntes
 er best. Tenker vi kan starte med å bruke en csv-fil til å lagre dataen, så hvis vi får tid kan vi bruke mongoDB,
@@ -10,10 +12,7 @@ men har aldri brukt det skikkelig til python.
 Kan hende det er best å lagre i dictonary for å få det best inn i csv-filen, eller bruke list-in-list for å få verdiene
 med riktig parameter. Parametrene ligger i en kommentar i station.py. Vi kan også bruke example.py som inspirasjon til denne.
 
-Første omgang:
 
-Kunne hente inn data fra station.py, og lagre det i en dictonary som skal kunne bli sendt over til storage
-via nettverket.
 """
 
 
@@ -58,9 +57,16 @@ def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1
                 bergen_station.month = next_month
                 current_day = 0
         current_day += 1
-
     bergen_station.shut_down()
     return data_from_station
+
+
+socket = socket(AF_INET, SOCK_DGRAM)
+
+while {(text := input('> ').lower()) != 'shut down'}:
+    socket.sendto(text.encode(), ('localhost', 55555))
+    msg, addr = socket.recvfrom(2048)
+    print(msg.decode())
 
 
 # print(collect_weather_data(90, 1999, "November", 25))

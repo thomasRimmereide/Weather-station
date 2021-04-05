@@ -116,7 +116,7 @@ while True:
         date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
         ##Opens a file and writes to it
-        f = open('notebook.txt' 'a') ##use append instead of write, wont overwrite, just add to the end.
+        f = open('notebook.txt','a') ##use append instead of write, wont overwrite, just add to the end.
         ##write the user address, timestamp and the text
         f.write(f'User: {addr[0]} : Timestamp: {date} \n' + '- ' + text + '\n\n')
         f.close()

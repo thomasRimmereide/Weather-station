@@ -21,7 +21,7 @@ from socket import socket, AF_INET, SOCK_DGRAM
 def welcome():
     command = input("which data do you want")
     storage.get(command)
-"""
+"
 
 socket = socket(AF_INET, SOCK_DGRAM)
 
