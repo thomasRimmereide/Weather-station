@@ -1,4 +1,4 @@
-#FMI script
+# FMI script
 
 """
 
@@ -14,6 +14,25 @@ weather_station -   client
 
 Gjerne se på tidligere oppgaver:)
 """
+from socket import socket
+import storage
 
 
+def welcome():
+    print("tisstass")
+    command = input("which data do you want")
+    storage.get(command)
 
+
+def tisstass():
+    sock = socket()
+    sock.connect(storage)
+    request = input("Input: ")  # change variable name
+
+    sock.send(request.encode())
+    new_request = sock.recv(1024).decode()
+    print(f"tisstass")
+    sock.close()
+
+
+welcome()
