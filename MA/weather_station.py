@@ -26,41 +26,41 @@ def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1
     days_of_month = getattr(bergen_station, "_days_of_month", None)
 
     # Sets the current date and month
-
     current_day = day
     bergen_station.month = month
     current_year = year
 
     # Dictionary to be sent to storage
-    data_from_station = {"location": [], "year": [], "month": [], "day": [], "rain": [],
+    data_from_station = {"location": [], "date": [], "rain": [],
                          "temperature": []}
 
     bergen_station.turn_on()
 
     for _ in range(1, amount_of_days_to_log + 1):
-        sleep(simulation_interval)
+        #sleep(simulation_interval)
+
+        current_date = str(current_day) + "." + bergen_station.month + "." + str(current_year)
 
         data_from_station["location"].append(bergen_station.location)
-        data_from_station["year"].append(current_year)
-        data_from_station["month"].append(bergen_station.month)
-        data_from_station["day"].append(current_day)
+        data_from_station["date"].append(current_date)
         data_from_station["rain"].append(bergen_station.rain)
         data_from_station["temperature"].append(bergen_station.temperature)
 
-        if days_of_month.get(bergen_station.month) == data_from_station.get("day")[-1]:
+        if days_of_month.get(bergen_station.month) == current_day:
             if bergen_station.month == "December":
                 bergen_station.month = "January"
-                collect_weather_data().current_day = 1
-                return
+                current_year += 1
+                current_day = 0
+            else:
+                find_next_month = list(days_of_month)
+                next_month = find_next_month[find_next_month.index(bergen_station.month) + 1]
 
-        find_next_month = list(days_of_month)
-        next_month = find_next_month[find_next_month.index(bergen_station.month) + 1]
-
-        bergen_station.month == next_month
-        current_day = 1
+                bergen_station.month = next_month
+                current_day = 0
+        current_day += 1
 
     bergen_station.shut_down()
     return data_from_station
 
 
-print(collect_weather_data(180))
+print(collect_weather_data(90, 1999, "November", 25))
