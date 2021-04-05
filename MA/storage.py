@@ -36,7 +36,10 @@ def put(weather_station_data: dict):
 
 
 def get(request):
-    """Get the requested data from database"""
+    """Get the requested data from database
+    'all' - prints the entire database
+    'month' - prints the selected month
+    int year - print the selected year """
     try:
         weather_data = pd.read_csv("Data.csv")
         if request == "all":
