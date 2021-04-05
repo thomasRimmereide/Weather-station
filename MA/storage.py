@@ -94,4 +94,37 @@ def dateTime():
 #data = ws.collect_weather_data(180)
 #put(data)
 #new_database()
-get('all')
+#get('all')
+
+from socket import socket, AF_INET, SOCK_DGRAM
+from datetime import datetime
+
+sock = socket(AF_INET, SOCK_DGRAM)
+sock.bind(('localhost', 55555))
+
+while True:
+
+    ##recieve message and address with the sock.recvfrom
+    msg, addr = sock.recvfrom(2048)
+    ##decode message
+    text = msg.decode()
+    print(text)
+
+    ##checks for spaces, if it is just spaces it wont save this
+    if text.strip():
+        ##Get date and time
+        date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+        ##Opens a file and writes to it
+        f = open('notebook.txt' 'a') ##use append instead of write, wont overwrite, just add to the end.
+        ##write the user address, timestamp and the text
+        f.write(f'User: {addr[0]} : Timestamp: {date} \n' + '- ' + text + '\n\n')
+        f.close()
+
+        ##print what he wrote
+        print(f'{addr[0]} wrote {msg.decode()}')
+        ##send acknowledgement to client that you have connected to the server
+        sock.sendto((f'Server: ACK'.encode()), addr)
+    else:
+        ##
+        sock.sendto(('Server: You have to write something buddy!'.encode()), addr)
