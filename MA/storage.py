@@ -30,11 +30,16 @@ def put(weather_station_data: dict):
     """Put data from weather_station into database"""
     dataframe = pd.concat([pd.Series(v, name=k) for k, v in weather_station_data.items()], axis=1)
     dataframe = dataframe.fillna("-")
-    dataframe.to_csv("Data.csv", mode='a', encoding='utf-8', index=False)
+    # use the python tell function to check if the "database" is empty. if so we add headers if false we dont
+    with open("Data.csv", 'a') as database:
+        dataframe.to_csv("Data.csv", mode='a', encoding='utf-8', index=False, header=database.tell() == 0)
 
 
 def get(request):
-    """Get the requested data from database"""
+    """Get the requested data from database
+    'all' - prints the entire database
+    'month' - prints the selected month
+    int year - print the selected year """
     try:
         weather_data = pd.read_csv("Data.csv")
         if request == "all":
