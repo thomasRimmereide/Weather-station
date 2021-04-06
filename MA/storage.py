@@ -115,7 +115,7 @@ def threaded_client(connection):
         data = connection.recv(2048)
         msg = data.decode()
         print(data)
-        reply = data.decode('utf-8')
+        reply = data.decode()
         if data == '':
             break
         connection.sendall(str.encode(reply))
