@@ -1,8 +1,8 @@
 from station import StationSimulator
 
-from time import sleep
+import time
 import socket
-import cPickle as pickle
+import pickle as pickle
 
 """
 Leser info fra station.py, skal egentlig bare bruke info derfra, og sende det videre til storage.py i den formen vi syntes
@@ -61,26 +61,22 @@ def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1
     return data_from_station
 
 
-ClientSocket = socket.socket()
-host = '127.0.0.1'
-port = 1233
+ClientSocket =  socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = 'localhost'
+port = 6969
 
-print('Waiting for connection')
-try:
-    ClientSocket.connect((host, port))
-except socket.error as e:
-    print(str(e))
+ClientSocket.connect((host, port))
 
 Response = ClientSocket.recv(1024)
 while True:
-    sleep(60)
-    data_string = pickle.dumps(collect_weather_data())
-    ClientSocket.send(data_string)
+    msg = "weather_staation her!!"
 
+    ClientSocket.send(str.encode(msg))
+    Response = ClientSocket.recv(1024)
+    print(Response.decode('utf-8'))
+    time.sleep(5)
 ClientSocket.close()
 
-
-socket = socket(AF_INET, SOCK_DGRAM)
 """
 while {(text := input('> ').lower()) != 'shut down'}:
     socket.sendto(text.encode(), ('localhost', 55555))

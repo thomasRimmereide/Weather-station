@@ -17,24 +17,20 @@ Gjerne se på tidligere oppgaver:)
 from socket import socket, AF_INET, SOCK_DGRAM
 
 
-# import storage
 
 import socket
 
-ClientSocket = socket.socket()
-host = '127.0.0.1'
-port = 1233
+ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = 'localhost'
+port = 6969
 
 print('Waiting for connection')
-try:
-    ClientSocket.connect((host, port))
-except socket.error as e:
-    print(str(e))
+ClientSocket.connect((host, port))
 
 Response = ClientSocket.recv(1024)
 while True:
-    Input = input('Say Something: ')
-    ClientSocket.send(str.encode(Input))
+    msg = input('Say Something: ')
+    ClientSocket.send(str.encode(msg))
     Response = ClientSocket.recv(1024)
     print(Response.decode('utf-8'))
 
@@ -53,9 +49,6 @@ while {(text := input('> ').lower()) != 'shut down'}:
     socket.sendto(text.encode(), ('localhost', 55555))
     msg, addr = socket.recvfrom(2048)
     print(msg.decode())
-
-
-
 
 def tisstass():
     sock = socket()

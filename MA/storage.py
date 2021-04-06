@@ -17,7 +17,7 @@ from pandas.errors import EmptyDataError
 
 import socket
 import os
-from _thread import *
+from _thread import start_new_thread
 
 # Dummy data for development
 measurements = {
@@ -100,70 +100,32 @@ def dateTime():
 #get('all')
 
 
+sock_tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = 'localhost'
+tcp_port = 6969
+sock_tcp.bind((host, tcp_port))
 
-ServerSocket = socket.socket()
-host = '127.0.0.1'
-port = 1233
-ThreadCount = 0
-try:
-    ServerSocket.bind((host, port))
-except socket.error as e:
-    print(str(e))
-
-print('Waitiing for a Connection..')
-ServerSocket.listen(5000)
+print('Server is running')
+sock_tcp.listen(5000)
 
 
 def threaded_client(connection):
-    connection.send(str.encode('Welcome to the database!!!!!'))
+    connection.send(str.encode('Connected to Database 1'))
     while True:
         data = connection.recv(2048)
-        reply = 'Server Says: ' + data.decode('utf-8')
-        if not data:
+        msg = data.decode()
+        print(data)
+        reply = data.decode('utf-8')
+        if data == '':
             break
         connection.sendall(str.encode(reply))
     connection.close()
 
+
 while True:
-    Client, address = ServerSocket.accept()
-    print('Connected to: ' + address[0] + ':' + str(address[1]))
-    start_new_thread(threaded_client, (Client, ))
-    ThreadCount += 1
-    print('Thread Number: ' + str(ThreadCount))
+    tcp_client,tcp_address = sock_tcp.accept()
+    print('Connected to: ' + tcp_address[0] + ':' + str(tcp_address[1]))
+    start_new_thread(threaded_client, (tcp_client, ))
+
+
 ServerSocket.close()
-
-
-
-'''
-from socket import socket, AF_INET, SOCK_DGRAM
-from datetime import datetime
-
-sock = socket(AF_INET, SOCK_DGRAM)
-sock.bind(('localhost', 55555))
-
-while True:
-
-    ##recieve message and address with the sock.recvfrom
-    msg, addr = sock.recvfrom(2048)
-    ##decode message
-    text = msg.decode()
-    print(text)
-
-    ##checks for spaces, if it is just spaces it wont save this
-    if text.strip():
-        ##Get date and time
-        date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-
-        ##Opens a file and writes to it
-        f = open('notebook.txt','a') ##use append instead of write, wont overwrite, just add to the end.
-        ##write the user address, timestamp and the text
-        f.write(f'User: {addr[0]} : Timestamp: {date} \n' + '- ' + text + '\n\n')
-        f.close()
-
-        ##print what he wrote
-        print(f'{addr[0]} wrote {msg.decode()}')
-        ##send acknowledgement to client that you have connected to the server
-        sock.sendto((f'Server: ACK'.encode()), addr)
-    else:
-        sock.sendto(('Server: You have to write something buddy!'.encode()), addr)
-'''
