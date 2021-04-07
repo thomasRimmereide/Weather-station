@@ -11,10 +11,11 @@ Første omgang:
 Kunne lagre data fra en dictonary (feltnavn står i station.py) til en CSV fil.
 
 """
+import pickle
 
 import pandas as pd
 from pandas.errors import EmptyDataError
-
+from io import BufferedReader
 import socket
 import os
 from _thread import start_new_thread
@@ -47,6 +48,7 @@ def get(request):
         weather_data = pd.read_csv("Data.csv")
         if request == "all":
             show_request(weather_data)
+            return weather_data
         elif isinstance(request, int):
             show_request(get_year(weather_data, request))
         else:
@@ -93,11 +95,21 @@ def dateTime():
     print(df['date'].between('01-05-1981', '05-05-1981'))
     print(df.loc[df['date'].between('1981-05-01','1981-05-05')])
 
+def get_period(start_date : str, end_data : str):
+    df = pd.read_csv("Data.csv")
+    return df.loc[df['date'].between('1981-05-01','1981-05-05')]
+
 #dateTime()
 #data = ws.collect_weather_data(180)
 #put(data)
 #new_database()
-#get('all')
+#get('may')
+
+
+
+
+
+
 
 
 sock_tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -111,21 +123,31 @@ sock_tcp.listen(5000)
 
 def threaded_client(connection):
     connection.send(str.encode('Connected to Database 1'))
+
+    data = connection.recv(2048)
+    connected_client = data.decode()
+    print(data)
+
     while True:
         data = connection.recv(2048)
-        msg = data.decode()
-        print(data)
-        reply = data.decode()
-        if data == '':
+        if connected_client == 'Bergen WS':
+            print(pickle.loads(data))
+        elif connected_client == 'bergen':
+            request = data.decode()
+            return_data = pickle.dumps(get(request))
+            connection.sendall(return_data)
+        # TODO add stop
+        if data == 'stop':
             break
-        connection.sendall(str.encode(reply))
     connection.close()
 
 
 while True:
-    tcp_client,tcp_address = sock_tcp.accept()
+    tcp_client, tcp_address = sock_tcp.accept()
     print('Connected to: ' + tcp_address[0] + ':' + str(tcp_address[1]))
     start_new_thread(threaded_client, (tcp_client, ))
 
 
 ServerSocket.close()
+
+

@@ -67,15 +67,16 @@ port = 6969
 
 ClientSocket.connect((host, port))
 Response = ClientSocket.recv(1024)
-
+ser = "Bergen WS"
+ClientSocket.send(str.encode(ser))
 while True:
-    msg = "weather_staation her!!"
-    #data_string = pickle.dumps(collect_weather_data())
-    #ClientSocket.send(data_string)
+    #msg = "weather_staation her!!"
+    data_string = pickle.dumps(collect_weather_data())
+    ClientSocket.sendall(data_string)
 
-    ClientSocket.send(str.encode(msg))
-    Response = ClientSocket.recv(1024)
-    print(Response.decode())
+    #ClientSocket.send(str.encode(msg))
+    #Response = ClientSocket.recv(1024)
+    #print(Response.decode())
     time.sleep(5)
 ClientSocket.close()
 
