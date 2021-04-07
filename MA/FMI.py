@@ -14,6 +14,10 @@ weather_station -   client
 
 Gjerne se på tidligere oppgaver:)
 """
+import pickle
+from socket import socket, AF_INET, SOCK_DGRAM
+import pandas as pd
+import os
 
 import socket
 
@@ -23,13 +27,16 @@ port = 6969
 
 print('Waiting for connection')
 ClientSocket.connect((host, port))
-
+choose_database = input("Which location? ")
+ClientSocket.send(str.encode(choose_database))
 Response = ClientSocket.recv(1024)
 while True:
     msg = input('Say Something: ')
     ClientSocket.send(str.encode(msg))
-    Response = ClientSocket.recv(1024)
-    print(Response.decode('utf-8'))
+    response = ClientSocket.recv(4096)
+    print(pickle.loads(response))
+
+    #print(Response.decode('utf-8'))
 
 ClientSocket.close()
 

@@ -66,9 +66,9 @@ class StationSimulator:
 
         # Initialize precipitation parameters
         self._prob_rainy_day = avg_precipitation_days / \
-            self._days_of_month[month]
+                               self._days_of_month[month]
         self._avg_precipitation_rainy_day = avg_precipitation / \
-            (12 * avg_precipitation_days)
+                                            (12 * avg_precipitation_days)
 
         self._simulation_interval = simulation_interval
 
@@ -146,3 +146,7 @@ class StationSimulator:
     @month.setter
     def month(self, value):
         self._month = value
+
+    @location.setter
+    def location(self, value):
+        self._location = value
