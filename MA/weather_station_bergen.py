@@ -14,7 +14,7 @@ med riktig parameter. Parametrene ligger i en kommentar i station.py. Vi kan ogs
 """
 
 global date_to_start_next_reading_on
-date_to_start_next_reading_on = {"day": 1, "month": "May", "year": 1981}
+date_to_start_next_reading_on = {"day_bergen": 1, "month_bergen": "May", "year_bergen": 1981}
 
 
 def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
@@ -28,9 +28,9 @@ def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
     days_of_month = getattr(bergen_station, "_days_of_month", None)
 
     # Sets the current date and month
-    current_day = date_to_start_next_reading_on.get("day")
-    bergen_station.month = date_to_start_next_reading_on.get("month")
-    current_year = date_to_start_next_reading_on.get("year")
+    current_day = date_to_start_next_reading_on.get("day_bergen")
+    bergen_station.month = date_to_start_next_reading_on.get("month_bergen")
+    current_year = date_to_start_next_reading_on.get("year_bergen")
 
     # Dictionary to be sent to storage
     data_from_station = {"location": [], "date": [], "rain": [],
@@ -61,14 +61,16 @@ def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
                 current_day = 0
         current_day += 1
 
-    save_today_date(today_date={"day": current_day, "month": bergen_station.month, "year": current_year})
+    save_today_date(today_date={"day_bergen": current_day, "month_bergen": bergen_station.month, "year_bergen": current_year})
     bergen_station.shut_down()
     return data_from_station
 
 
 def save_today_date(today_date=dict()):
+    d = update_today_date()
+    d.update(today_date)
     file = open("current_date.txt", "wb")
-    pickle.dump(today_date, file)
+    pickle.dump(d, file)
     file.close()
 
 
@@ -81,7 +83,7 @@ def update_today_date():
 
 print(collect_weather_data())
 
-
+"""
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
 port = 6969
@@ -101,3 +103,4 @@ while {(text := input('> ').lower()) != 'shut down'}:
     socket.sendto(text.encode(), ('localhost', 55555))
     msg, addr = socket.recvfrom(2048)
     print(msg.decode())
+"""
