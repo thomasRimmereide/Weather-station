@@ -15,7 +15,6 @@ import pickle
 
 import pandas as pd
 from pandas.errors import EmptyDataError
-from io import BufferedReader
 import socket
 import os
 from _thread import start_new_thread
