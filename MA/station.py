@@ -146,3 +146,7 @@ class StationSimulator:
     @month.setter
     def month(self, value):
         self._month = value
+
+    @location.setter
+    def location(self, value):
+        self._location = value

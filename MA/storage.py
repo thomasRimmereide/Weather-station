@@ -1,7 +1,7 @@
 # storage server process
 
 """
-Denne skal lese inn fra weather_station.py, og lagre dataen i csv-filen.
+Denne skal lese inn fra weather_station_bergen.py, og lagre dataen i csv-filen.
 Den skal også gi FMI tilgang til dataen som er lagret hvis den får en forespørsel om det.
 
 Står også at alle filene skal kunne kjøres i localhost, litt usikker på hva det menes med, men kanskje bare på pcen?
@@ -123,7 +123,7 @@ def threaded_client(connection):
 
 
 while True:
-    tcp_client,tcp_address = sock_tcp.accept()
+    tcp_client, tcp_address = sock_tcp.accept()
     print('Connected to: ' + tcp_address[0] + ':' + str(tcp_address[1]))
     start_new_thread(threaded_client, (tcp_client, ))
 
