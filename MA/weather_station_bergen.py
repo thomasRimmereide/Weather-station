@@ -61,7 +61,8 @@ def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
                 current_day = 0
         current_day += 1
 
-    save_today_date(today_date={"day_bergen": current_day, "month_bergen": bergen_station.month, "year_bergen": current_year})
+    save_today_date(
+        today_date={"day_bergen": current_day, "month_bergen": bergen_station.month, "year_bergen": current_year})
     bergen_station.shut_down()
     return data_from_station
 
@@ -81,6 +82,9 @@ def update_today_date():
     return d
 
 
+print(collect_weather_data())
+
+'''
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -96,4 +100,4 @@ while True:
     ClientSocket.sendall(data_string)
     sleep(5)
 ClientSocket.close()
-
+'''
