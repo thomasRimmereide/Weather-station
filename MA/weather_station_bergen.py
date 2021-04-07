@@ -1,6 +1,6 @@
 from station import StationSimulator
 
-import time
+from time import sleep
 import socket
 import pickle as pickle
 
@@ -19,13 +19,13 @@ global date_to_start_next_reading_on
 date_to_start_next_reading_on = {"day": 1, "month": "May", "year": 1981}
 
 
-def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1):
+def collect_weather_data(amount_of_days_to_log=10):
     global date_to_start_next_reading_on
-    simulation_interval = 1
+
     date_to_start_next_reading_on = update_today_date()
 
     # Initializing data from station
-    bergen_station = StationSimulator(simulation_interval=simulation_interval)
+    bergen_station = StationSimulator(simulation_interval=1)
 
     days_of_month = getattr(bergen_station, "_days_of_month", None)
 
@@ -41,7 +41,7 @@ def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1
     bergen_station.turn_on()
 
     for _ in range(1, amount_of_days_to_log + 1):
-        #sleep(simulation_interval)
+        sleep(1)
 
         current_date = str(current_day) + "." + bergen_station.month + "." + str(current_year)
 
