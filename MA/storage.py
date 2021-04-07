@@ -23,6 +23,7 @@ from _thread import start_new_thread
 
 # Dummy data for development
 measurements = {
+    "month": ["May", "May", "June"],
     "location": ["bergen"],
     "date": ["01.may.2012", "02.may.2012", "03.may.2012", "01.jun.2012", "02.june.2012", "03.june.2012", "01.aug.2012"],
     "voltage": [5, 2, 6, 3],
@@ -91,7 +92,6 @@ def new_database():
     database.truncate(0)
     database.close()
 
-
 # move to put
 def dateTime():
     df = pd.read_csv("Data.csv")
@@ -134,11 +134,13 @@ def get_request(com_request: list):
 
 def thread(connection):
     connection.send(str.encode('Connected to Database 1'))
+
     data = connection.recv(2048)
     connected_client = data.decode()
     print(data)
 
     while True:
+        data = connection.recv(2048)
         if connected_client == 'Bergen WS':
             data = connection.recv(2048)
             print(pickle.loads(data))

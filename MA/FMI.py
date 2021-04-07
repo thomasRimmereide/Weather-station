@@ -29,7 +29,7 @@ response = ClientSocket.recv(1024)
 print(response.decode())
 
 
-def request(): 
+def request():
     req = []
     amount = input("Do you want all the data or a period \n Type: all or period")
     req.append(amount)

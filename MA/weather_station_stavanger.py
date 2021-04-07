@@ -1,6 +1,6 @@
 from station import StationSimulator
 
-import time
+from time import sleep
 import socket
 import pickle as pickle
 
@@ -15,8 +15,13 @@ med riktig parameter. Parametrene ligger i en kommentar i station.py. Vi kan ogs
 
 """
 
+date_to_start_next_reading_on = {"day_stavanger": 1, "month_stavanger": "May", "year_stavanger": 1981}
 
-def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1):
+
+def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
+    global date_to_start_next_reading_on
+
+    date_to_start_next_reading_on = update_today_date()
     simulation_interval = 1
 
     # Initializing data from station
@@ -25,9 +30,9 @@ def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1
     days_of_month = getattr(stavanger_station, "_days_of_month", None)
 
     # Sets the current date and month
-    current_day = day
-    stavanger_station.month = month
-    current_year = year
+    current_day = date_to_start_next_reading_on.get("day_stavanger")
+    stavanger_station.month = date_to_start_next_reading_on.get("month_stavanger")
+    current_year = date_to_start_next_reading_on.get("year_stavanger")
 
     stavanger_station.location = "Stavanger"
 
@@ -38,7 +43,7 @@ def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1
     stavanger_station.turn_on()
 
     for _ in range(1, amount_of_days_to_log + 1):
-        #sleep(simulation_interval)
+        sleep(simulation_interval)
 
         current_date = str(current_day) + "." + stavanger_station.month + "." + str(current_year)
 
@@ -59,10 +64,29 @@ def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1
                 stavanger_station.month = next_month
                 current_day = 0
         current_day += 1
+
+    save_today_date(today_date={"day_stavanger": current_day, "month_stavanger": stavanger_station.month, "year_stavanger": current_year})
+
     stavanger_station.shut_down()
     return data_from_station
 
 
+def save_today_date(today_date=dict()):
+    d = update_today_date()
+    d.update(today_date)
+    file = open("current_date.txt", "wb")
+    pickle.dump(d, file)
+    file.close()
+
+
+def update_today_date():
+    with open("current_date.txt", "rb") as data:
+        today = data.read()
+    d = pickle.loads(today)
+    return d
+
+
+"""
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
 port = 6969
@@ -71,7 +95,7 @@ ClientSocket.connect((host, port))
 Response = ClientSocket.recv(1024)
 
 while True:
-    msg = "weather_staation her!!"
+    msg = "weather_station her!!"
     data_string = pickle.dumps(collect_weather_data())
     ClientSocket.send(data_string)
 
@@ -81,12 +105,10 @@ while True:
     time.sleep(5)
 ClientSocket.close()
 
-"""
+
+
 while {(text := input('> ').lower()) != 'shut down'}:
     socket.sendto(text.encode(), ('localhost', 55555))
     msg, addr = socket.recvfrom(2048)
     print(msg.decode())
-
-
-# print(collect_weather_data(90, 1999, "November", 25))
 """
