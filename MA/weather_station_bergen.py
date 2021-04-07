@@ -67,6 +67,7 @@ def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
     bergen_station.shut_down()
     return data_from_station
 
+
 def save_today_date(today_date=dict()):
     file = open("current_date.txt", "wb")
     pickle.dump(today_date, file)
@@ -79,7 +80,8 @@ def update_today_date():
     d = pickle.loads(today)
     return d
 
-ClientSocket =  socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
 port = 6969
 
@@ -88,20 +90,8 @@ Response = ClientSocket.recv(1024)
 ser = "Bergen WS"
 ClientSocket.send(str.encode(ser))
 while True:
-
     data_string = pickle.dumps(collect_weather_data())
     ClientSocket.sendall(data_string)
-
-
     sleep(5)
 ClientSocket.close()
 
-"""
-while {(text := input('> ').lower()) != 'shut down'}:
-    socket.sendto(text.encode(), ('localhost', 55555))
-    msg, addr = socket.recvfrom(2048)
-    print(msg.decode())
-
-
-# print(collect_weather_data(90, 1999, "November", 25))
-"""

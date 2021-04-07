@@ -15,10 +15,6 @@ weather_station -   client
 Gjerne se på tidligere oppgaver:)
 """
 import pickle
-from socket import socket, AF_INET, SOCK_DGRAM
-import pandas as pd
-import os
-
 import socket
 
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,42 +23,31 @@ port = 6969
 
 print('Waiting for connection')
 ClientSocket.connect((host, port))
-choose_database = input("Which location? ")
+choose_database = "request_computer"
 ClientSocket.send(str.encode(choose_database))
-Response = ClientSocket.recv(1024)
+response = ClientSocket.recv(1024)
+print(response.decode())
+
+
+def request(): 
+    req = []
+    amount = input("Do you want all the data or a period \n Type: all or period")
+    req.append(amount)
+    if amount == 'all':
+        return req
+    else:
+        start = input("Enter start date for the period yyyy-mm-dd \n")
+        req.append(start)
+        stop = input("Enter stop date for the period yyyy-mm-dd \n ")
+        req.append(stop)
+        return req
+
+
 while True:
-    msg = input('Say Something: ')
-    ClientSocket.send(str.encode(msg))
+
+    ClientSocket.send(pickle.dumps(request()))
     response = ClientSocket.recv(4096)
     print(pickle.loads(response))
 
-    #print(Response.decode('utf-8'))
-
 ClientSocket.close()
 
-
-"""
-def welcome():
-    command = input("which data do you want")
-    storage.get(command)
-"
-
-socket = socket(AF_INET, SOCK_DGRAM)
-
-while {(text := input('> ').lower()) != 'shut down'}:
-    socket.sendto(text.encode(), ('localhost', 55555))
-    msg, addr = socket.recvfrom(2048)
-    print(msg.decode())
-
-def tisstass():
-    sock = socket()
-    sock.connect(storage)
-    request = input("Input: ")  # change variable name
-
-    sock.send(request.encode())
-    new_request = sock.recv(1024).decode()
-    print(f"tisstass")
-    sock.close()
-"""
-
-# welcome()
