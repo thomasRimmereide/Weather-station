@@ -81,7 +81,8 @@ def update_today_date():
     return d
 
 
-"""
+ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
 port = 6969
@@ -96,9 +97,3 @@ while True:
     sleep(5)
 ClientSocket.close()
 
-
-while {(text := input('> ').lower()) != 'shut down'}:
-    socket.sendto(text.encode(), ('localhost', 55555))
-    msg, addr = socket.recvfrom(2048)
-    print(msg.decode())
-"""
