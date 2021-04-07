@@ -19,13 +19,13 @@ global date_to_start_next_reading_on
 date_to_start_next_reading_on = {"day": 1, "month": "May", "year": 1981}
 
 
-def collect_weather_data(amount_of_days_to_log=10):
+def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
     global date_to_start_next_reading_on
 
     date_to_start_next_reading_on = update_today_date()
 
     # Initializing data from station
-    bergen_station = StationSimulator(simulation_interval=1)
+    bergen_station = StationSimulator(simulation_interval=simulation_interval)
 
     days_of_month = getattr(bergen_station, "_days_of_month", None)
 
@@ -41,7 +41,7 @@ def collect_weather_data(amount_of_days_to_log=10):
     bergen_station.turn_on()
 
     for _ in range(1, amount_of_days_to_log + 1):
-        sleep(1)
+        sleep(simulation_interval)
 
         current_date = str(current_day) + "." + bergen_station.month + "." + str(current_year)
 
