@@ -73,13 +73,13 @@ def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
 def save_today_date(today_date=dict()):
     d = update_today_date()
     d.update(today_date)
-    file = open("current_date.txt", "wb")
+    file = open("current_date.pickle", "wb")
     pickle.dump(d, file)
     file.close()
 
 
 def update_today_date():
-    with open("current_date.txt", "rb") as data:
+    with open("current_date.pickle", "rb") as data:
         today = data.read()
     d = pickle.loads(today)
     return d
