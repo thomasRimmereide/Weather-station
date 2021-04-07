@@ -11,11 +11,9 @@ men har aldri brukt det skikkelig til python.
 
 Kan hende det er best å lagre i dictonary for å få det best inn i csv-filen, eller bruke list-in-list for å få verdiene
 med riktig parameter. Parametrene ligger i en kommentar i station.py. Vi kan også bruke example.py som inspirasjon til denne.
-
-
 """
-global date_to_start_next_reading_on
 
+global date_to_start_next_reading_on
 date_to_start_next_reading_on = {"day": 1, "month": "May", "year": 1981}
 
 
@@ -67,6 +65,7 @@ def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
     bergen_station.shut_down()
     return data_from_station
 
+
 def save_today_date(today_date=dict()):
     file = open("current_date.txt", "wb")
     pickle.dump(today_date, file)
@@ -79,7 +78,11 @@ def update_today_date():
     d = pickle.loads(today)
     return d
 
-ClientSocket =  socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+print(collect_weather_data())
+
+
+ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
 port = 6969
 
@@ -88,20 +91,13 @@ Response = ClientSocket.recv(1024)
 ser = "Bergen WS"
 ClientSocket.send(str.encode(ser))
 while True:
-
     data_string = pickle.dumps(collect_weather_data())
     ClientSocket.sendall(data_string)
-
-
     sleep(5)
 ClientSocket.close()
 
-"""
+
 while {(text := input('> ').lower()) != 'shut down'}:
     socket.sendto(text.encode(), ('localhost', 55555))
     msg, addr = socket.recvfrom(2048)
     print(msg.decode())
-
-
-# print(collect_weather_data(90, 1999, "November", 25))
-"""
