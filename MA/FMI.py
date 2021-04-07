@@ -17,6 +17,18 @@ Gjerne se på tidligere oppgaver:)
 import pickle
 import socket
 
+
+
+def show_request(weather_data):
+    """Print the get request to terminal or error message if not in database"""
+    #TODO Move to storage
+    if weather_data.empty:
+        print("The requested data is not found in database")
+    else:
+        location_data = weather_data.iloc[0, 0]
+        print("Weather data for %s  " % (location_data))
+        print(weather_data.reset_index(drop=True))
+
 def request():
     req = []
     amount = input("Do you want all the data or a period \n Type: all or period")
@@ -45,7 +57,8 @@ while True:
 
     ClientSocket.send(pickle.dumps(request()))
     response = ClientSocket.recv(4096)
-    print(pickle.loads(response))
+    print(show_request(pickle.loads(response)))
+
 
 ClientSocket.close()
 
