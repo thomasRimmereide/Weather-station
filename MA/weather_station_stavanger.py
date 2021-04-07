@@ -20,63 +20,64 @@ def collect_weather_data(amount_of_days_to_log=10, year=1981, month="May", day=1
     simulation_interval = 1
 
     # Initializing data from station
-    bergen_station = StationSimulator(simulation_interval=simulation_interval)
+    stavanger_station = StationSimulator(simulation_interval=simulation_interval)
 
-    days_of_month = getattr(bergen_station, "_days_of_month", None)
+    days_of_month = getattr(stavanger_station, "_days_of_month", None)
 
     # Sets the current date and month
     current_day = day
-    bergen_station.month = month
+    stavanger_station.month = month
     current_year = year
+
+    stavanger_station.location = "Stavanger"
 
     # Dictionary to be sent to storage
     data_from_station = {"location": [], "date": [], "rain": [],
                          "temperature": []}
 
-    bergen_station.turn_on()
+    stavanger_station.turn_on()
 
     for _ in range(1, amount_of_days_to_log + 1):
         #sleep(simulation_interval)
 
-        current_date = str(current_day) + "." + bergen_station.month + "." + str(current_year)
+        current_date = str(current_day) + "." + stavanger_station.month + "." + str(current_year)
 
-        data_from_station["location"].append(bergen_station.location)
+        data_from_station["location"].append(stavanger_station.location)
         data_from_station["date"].append(current_date)
-        data_from_station["rain"].append(bergen_station.rain)
-        data_from_station["temperature"].append(bergen_station.temperature)
+        data_from_station["rain"].append(stavanger_station.rain)
+        data_from_station["temperature"].append(stavanger_station.temperature)
 
-        if days_of_month.get(bergen_station.month) == current_day:
-            if bergen_station.month == "December":
-                bergen_station.month = "January"
+        if days_of_month.get(stavanger_station.month) == current_day:
+            if stavanger_station.month == "December":
+                stavanger_station.month = "January"
                 current_year += 1
                 current_day = 0
             else:
                 find_next_month = list(days_of_month)
-                next_month = find_next_month[find_next_month.index(bergen_station.month) + 1]
+                next_month = find_next_month[find_next_month.index(stavanger_station.month) + 1]
 
-                bergen_station.month = next_month
+                stavanger_station.month = next_month
                 current_day = 0
         current_day += 1
-    bergen_station.shut_down()
+    stavanger_station.shut_down()
     return data_from_station
 
 
-ClientSocket =  socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
 port = 6969
 
 ClientSocket.connect((host, port))
 Response = ClientSocket.recv(1024)
-ser = "Bergen WS"
-ClientSocket.send(str.encode(ser))
-while True:
-    #msg = "weather_staation her!!"
-    data_string = pickle.dumps(collect_weather_data())
-    ClientSocket.sendall(data_string)
 
-    #ClientSocket.send(str.encode(msg))
-    #Response = ClientSocket.recv(1024)
-    #print(Response.decode())
+while True:
+    msg = "weather_staation her!!"
+    data_string = pickle.dumps(collect_weather_data())
+    ClientSocket.send(data_string)
+
+    ClientSocket.send(str.encode(msg))
+    Response = ClientSocket.recv(1024)
+    print(Response.decode())
     time.sleep(5)
 ClientSocket.close()
 
