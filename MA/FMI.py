@@ -17,17 +17,17 @@ Gjerne se på tidligere oppgaver:)
 import pickle
 import socket
 
-ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = 'localhost'
-port = 6969
 
-print('Waiting for connection')
-ClientSocket.connect((host, port))
-choose_database = "request_computer"
-ClientSocket.send(str.encode(choose_database))
-response = ClientSocket.recv(1024)
-print(response.decode())
 
+def show_request(weather_data):
+    """Print the get request to terminal or error message if not in database"""
+    #TODO Move to storage
+    if weather_data.empty:
+        print("The requested data is not found in database")
+    else:
+        location_data = weather_data.iloc[0, 0]
+        print("Weather data for %s  " % (location_data))
+        print(weather_data.reset_index(drop=True))
 
 def request():
     req = []
@@ -43,11 +43,22 @@ def request():
         return req
 
 
+ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = 'localhost'
+port = 6969
+
+ClientSocket.connect((host, port))
+choose_database = "request_computer"
+ClientSocket.send(str.encode(choose_database))
+response = ClientSocket.recv(1024)
+print(response.decode())
+
 while True:
 
     ClientSocket.send(pickle.dumps(request()))
     response = ClientSocket.recv(4096)
-    print(pickle.loads(response))
+    print(show_request(pickle.loads(response)))
+
 
 ClientSocket.close()
 

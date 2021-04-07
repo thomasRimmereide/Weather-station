@@ -41,34 +41,6 @@ def put(weather_station_data: dict):
         dataframe.to_csv("Data.csv", mode='a', encoding='utf-8', index=False, header=database.tell() == 0)
 
 
-''''
-def get(request):
-    """Get the requested data from database
-    'all' - prints the entire database
-    'month' - prints the selected month
-    int year - print the selected year """
-    try:
-        weather_data = pd.read_csv("Data.csv")
-        if request == "all":
-            show_request(weather_data)
-            return weather_data
-        else:
-            get_period()
-    except EmptyDataError:
-        print("database is empty")
-
-
-def show_request(weather_data):
-    """Print the get request to terminal or error message if not in database"""
-    if weather_data.empty:
-        print("The requested data is not found in database")
-    else:
-        location_data = weather_data.iloc[0, 0]
-        month_data = weather_data.iloc[0, 1]
-        print("Weather data for %s in %s " % (location_data, month_data))
-        print(weather_data.reset_index(drop=True))
-'''
-
 
 def get_month(weather_data, month: str):
     """Return all data in database for chosen month """
@@ -92,27 +64,6 @@ def new_database():
     database.truncate(0)
     database.close()
 
-# move to put
-def dateTime():
-    df = pd.read_csv("Data.csv")
-
-    # df['date'] = df['date'] = pd.to_datetime(df['date'])
-
-    '''snu etter søk ellers funker ikke den Amrikanske dritten'''
-    print(get_period('2012-05-01', '2012-06-05', df), "return")
-    # df['date'] = df['date'].dt.strftime('%d/%m/%Y')
-    # print(df)
-    # print(df['date'].between('01-05-1981', '05-05-1981'))
-    # print(df.loc[df['date'].between('01.05.1981', '05.05.1981')])
-
-#print(get_period('2012-05-02', '2012-05-20',pd.read_csv("Data.csv")))
-
-# dateTime()
-# data = ws.collect_weather_data()
-# put(measurements)
-# new_database()
-# get('may')
-
 
 sock_tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
@@ -125,7 +76,6 @@ sock_tcp.listen(5000)
 
 def get_request(com_request: list):
     entire_database = pd.read_csv("Data.csv")
-    print("getrequest")
     if 'all' in com_request:
         return entire_database
     else:
@@ -133,23 +83,19 @@ def get_request(com_request: list):
 
 
 def thread(connection):
-    connection.send(str.encode('Connected to Database 1'))
-
+    connection.send(str.encode('Connected to Database Bergen'))
     data = connection.recv(2048)
     connected_client = data.decode()
-    print(data)
 
     while True:
-        data = connection.recv(2048)
         if connected_client == 'Bergen WS':
             data = connection.recv(2048)
             print(pickle.loads(data))
         elif connected_client == 'request_computer':
             data = connection.recv(2048)
             req = pickle.loads(data)
-            print(pickle.loads(data))
             resp = get_request(req)
-            print(resp)
+            connection.sendall(pickle.dumps(resp))
         # TODO add stop
         if data == 'stop':
             break
