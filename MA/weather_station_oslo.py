@@ -84,4 +84,13 @@ def update_today_date():
     d = pickle.loads(today)
     return d
 
-print(collect_weather_data())
+
+ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+host = 'localhost'
+port = 6969
+
+while True:
+    data_string = pickle.dumps(collect_weather_data())
+    ClientSocket.sendto(data_string, (host, port))
+    sleep(5)
+ClientSocket.close()
