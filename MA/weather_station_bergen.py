@@ -79,8 +79,7 @@ def update_today_date():
         today = data.read()
     d = pickle.loads(today)
     return d
-print(collect_weather_data())
-'''
+
 
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -98,4 +97,3 @@ while True:
     sleep(5)
 ClientSocket.close()
 
-'''

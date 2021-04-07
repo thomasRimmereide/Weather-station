@@ -41,7 +41,6 @@ def put(weather_station_data: dict):
         dataframe.to_csv("Data.csv", mode='a', encoding='utf-8', index=False, header=database.tell() == 0)
 
 
-
 def get_month(weather_data, month: str):
     """Return all data in database for chosen month """
     print(weather_data.loc[weather_data['date'].dt.month])
@@ -91,6 +90,7 @@ def thread(connection):
         if connected_client == 'Bergen WS':
             data = connection.recv(2048)
             print(pickle.loads(data))
+            put(pickle.loads(data))
         elif connected_client == 'request_computer':
             data = connection.recv(2048)
             req = pickle.loads(data)
