@@ -81,7 +81,6 @@ def update_today_date():
     return d
 
 
-"""
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
