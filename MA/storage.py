@@ -133,23 +133,19 @@ def get_request(com_request: list):
 
 
 def thread(connection):
-    connection.send(str.encode('Connected to Database 1'))
-
+    connection.send(str.encode('Connected to Database Bergen'))
     data = connection.recv(2048)
     connected_client = data.decode()
-    print(data)
 
     while True:
-        data = connection.recv(2048)
         if connected_client == 'Bergen WS':
             data = connection.recv(2048)
             print(pickle.loads(data))
         elif connected_client == 'request_computer':
             data = connection.recv(2048)
             req = pickle.loads(data)
-            print(pickle.loads(data))
             resp = get_request(req)
-            print(resp)
+            connection.sendall(pickle.dumps(resp))
         # TODO add stop
         if data == 'stop':
             break

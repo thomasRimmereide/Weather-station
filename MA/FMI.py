@@ -17,18 +17,6 @@ Gjerne se på tidligere oppgaver:)
 import pickle
 import socket
 
-ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = 'localhost'
-port = 6969
-
-print('Waiting for connection')
-ClientSocket.connect((host, port))
-choose_database = "request_computer"
-ClientSocket.send(str.encode(choose_database))
-response = ClientSocket.recv(1024)
-print(response.decode())
-
-
 def request():
     req = []
     amount = input("Do you want all the data or a period \n Type: all or period")
@@ -42,6 +30,16 @@ def request():
         req.append(stop)
         return req
 
+
+ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = 'localhost'
+port = 6969
+
+ClientSocket.connect((host, port))
+choose_database = "request_computer"
+ClientSocket.send(str.encode(choose_database))
+response = ClientSocket.recv(1024)
+print(response.decode())
 
 while True:
 
