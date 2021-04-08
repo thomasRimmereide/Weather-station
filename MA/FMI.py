@@ -18,6 +18,10 @@ import pickle
 import socket
 import os
 
+tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = 'localhost'
+port = 6969
+
 
 def show_request(weather_data):
     """Print the get request to terminal or error message if not in database"""
@@ -55,22 +59,17 @@ def request_packet():
 
 
 def initialize_tcp():
-    tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    host = 'localhost'
-    port = 6969
-
     tcp_client_socket.connect((host, port))
     type_of_client = "request_computer"
     tcp_client_socket.send(str.encode(type_of_client))
     initial_response = tcp_client_socket.recv(1024)
     print(initial_response.decode())
 
-"""
+
 def run_tcp():
     tcp_client_socket.send(pickle.dumps(request_packet()))
     database_response = tcp_client_socket.recv(16384)
     print(show_request(pickle.loads(database_response)))
-"""
 
 
 def storage_east_request():
@@ -102,7 +101,7 @@ while True:
     else:
         print('tisstassthomas')
 
-    choose_database = input("new data or shutdown? (new data or database /shutdown) \n")
+    choose_database = input("choose west, east or shutdown \n")
     if choose_database == "shutdown":
         shutdown = [user_request]
         tcp_client_socket.send(pickle.dumps(shutdown))
