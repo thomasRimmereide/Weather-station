@@ -82,8 +82,6 @@ def update_today_date():
 
 
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
 port = 6969
 
