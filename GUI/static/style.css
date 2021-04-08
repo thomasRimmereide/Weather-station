@@ -1,4 +1,8 @@
-body {background-color: #151929;}
+body {
+    background-color: #151929;
+    color: white;
+}
+
 
 .header-image {
     max-height: 400px;
@@ -36,4 +40,7 @@ body {background-color: #151929;}
     background-color: #9895A1;
     color: white;
     float: left;
+}
+.uppercase{
+    text-transform: capitalize;
 }
