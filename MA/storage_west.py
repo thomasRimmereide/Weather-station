@@ -30,6 +30,7 @@ print('Server is running')
 sock_tcp.listen(5000)
 
 
+# TODO move to DBMS
 def get_request(com_request: list):
     entire_database = pd.read_csv("Data.csv")
     if 'all' in com_request:
@@ -38,28 +39,30 @@ def get_request(com_request: list):
         return DBMS.get_period(com_request[-2], com_request[-1], entire_database)
 
 
-def thread(connection):
-    connection.send(str.encode('Connected to Database Bergen'))
-    data = connection.recv(2048)
-    connected_client = data.decode()
+def thread(this_connection):
+    """This method decides whats to bee done in a thread
+    if its a weather station it receive the data and adds it to the database.
+    if its a user client it handle client requests and send a response packet"""
+
+    this_connection.send(str.encode('Connected to Database West'))
+    start_package = this_connection.recv(2048)
+    type_of_client = start_package.decode()
 
     while True:
-        if connected_client == 'Bergen WS':
-            data = connection.recv(2048)
-            print(pickle.loads(data))
-            DBMS.put(pickle.loads(data))
+        if type_of_client == 'Bergen WS':
+            received_package = this_connection.recv(2048)
+            DBMS.put(pickle.loads(received_package))
 
-        elif connected_client == 'request_computer':
-            data = connection.recv(2048)
-            req = pickle.loads(data)
-            if req[0] != 's':
-                print("!=s")
+        elif type_of_client == 'request_computer':
+            received_package = this_connection.recv(2048)
+            req = pickle.loads(received_package)
+            if req[0] != 'shutdown':
                 resp = get_request(req)
-                connection.sendall(pickle.dumps(resp))
-        if req[0] == 's':
-            break
+                this_connection.sendall(pickle.dumps(resp))
+            else:
+                break
     print("shutdown")
-    connection.close()
+    this_connection.close()
 
 
 while True:
