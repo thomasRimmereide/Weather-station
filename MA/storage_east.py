@@ -18,20 +18,15 @@ def threaded_server(connected_client):
     if isinstance(received, dict):
         db.put(received, "Oslo_WS")
     elif isinstance(received, list):
-        print("inni liste")
-        ser = "Connected to storage east"
-        ServerSock.sendto(str.encode(ser), ("localhost", 5555))
-        print("sendt respons")
+        response = db.get_request(received)
+        ServerSock.sendto(pickle.dumps(response), ("localhost", 5555))
     else:
         print("error, do not recognize type")
 
 
-
 while True:
-    print("vildesintisstass")
     data, addr = ServerSock.recvfrom(2048)
     start_new_thread(threaded_server, (data,))
-    print("erlendsintisstass")
 
 ServerSock.close()
 socket.shutdown(ServerSock)
