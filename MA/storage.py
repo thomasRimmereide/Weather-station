@@ -91,14 +91,17 @@ def thread(connection):
             data = connection.recv(2048)
             print(pickle.loads(data))
             put(pickle.loads(data))
+
         elif connected_client == 'request_computer':
             data = connection.recv(2048)
             req = pickle.loads(data)
-            resp = get_request(req)
-            connection.sendall(pickle.dumps(resp))
-        # TODO add stop
-        if data == 'stop':
+            if req[0] != 's':
+                print("!=s")
+                resp = get_request(req)
+                connection.sendall(pickle.dumps(resp))
+        if req[0] == 's':
             break
+    print("shutdown")
     connection.close()
 
 
@@ -106,5 +109,5 @@ while True:
     tcp_client, tcp_address = sock_tcp.accept()
     print('Connected to: ' + tcp_address[0] + ':' + str(tcp_address[1]))
     start_new_thread(thread, (tcp_client,))
-
-ServerSocket.close()
+sock_tcp.close()
+socket.socket.shutdown(sock_tcp)

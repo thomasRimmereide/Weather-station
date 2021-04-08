@@ -18,6 +18,7 @@ import pickle
 import socket
 import os
 
+
 def show_request(weather_data):
     """Print the get request to terminal or error message if not in database"""
     #TODO Move to storage
@@ -32,8 +33,6 @@ def show_request(weather_data):
 def clear():
     if os.name == 'nt':
         _ = os.system('cls')
-
-    # for mac and linux(here, os.name is 'posix')
     else:
         _ = os.system('clear')
 
@@ -65,10 +64,18 @@ print(response.decode())
 while True:
 
     ClientSocket.send(pickle.dumps(request()))
-    response = ClientSocket.recv(4096)
+    response = ClientSocket.recv(8192)
     print(show_request(pickle.loads(response)))
-    ## new data ?? clear()
+    inp = input("new data or shutdown? (n/s")
+    if inp == "s":
+        shutdown = [inp]
+        ClientSocket.send(pickle.dumps(shutdown))
+        break
+    #TODO test clear with terminal
+    clear()
 
-
+clear()
+print("Client is disconnected")
 ClientSocket.close()
+
 
