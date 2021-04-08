@@ -19,11 +19,6 @@ import socket
 import os
 
 
-tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = 'localhost'
-port = 6969
-
-
 def show_request(weather_data):
     """Print the get request to terminal or error message if not in database"""
     #TODO Move to storage
@@ -45,9 +40,9 @@ def clear():
 def request_packet():
     """Return a list containing all user request to the database"""
     request_packet_list = []
-    weather_data_location = input("Enter location")
+    weather_data_location = input("Enter location: ")
     request_packet_list.append(weather_data_location)
-    amount_of_data = input("Do you want all the data or a period \n Type: all or period")
+    amount_of_data = input("Do you want all the data or a period \n Type: all or period: ")
     request_packet_list.append(amount_of_data)
     if amount_of_data == 'all':
         return request_packet_list
@@ -59,19 +54,56 @@ def request_packet():
         return request_packet_list
 
 
-tcp_client_socket.connect((host, port))
-type_of_client = "request_computer"
-tcp_client_socket.send(str.encode(type_of_client))
-initial_response = tcp_client_socket.recv(1024)
-print(initial_response.decode())
+def initialize_tcp():
+    tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    host = 'localhost'
+    port = 6969
 
-while True:
+    tcp_client_socket.connect((host, port))
+    type_of_client = "request_computer"
+    tcp_client_socket.send(str.encode(type_of_client))
+    initial_response = tcp_client_socket.recv(1024)
+    print(initial_response.decode())
 
+"""
+def run_tcp():
     tcp_client_socket.send(pickle.dumps(request_packet()))
     database_response = tcp_client_socket.recv(16384)
     print(show_request(pickle.loads(database_response)))
-    user_request = input("new data or shutdown? (new data/shutdown) \n")
-    if user_request == "shutdown":
+"""
+
+
+def storage_east_request():
+    udp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    udp_client_socket.bind(("localhost", 5555))
+    udp_client_socket.sendto(pickle.dumps(request_packet()), ("localhost", 1337))
+    print("sendt")
+    response, addr = udp_client_socket.recvfrom(2048)
+    print(response)
+    print("motatt")
+    print(response.decode())
+
+
+choose_database = input("East or West database: ")
+
+while True:
+    if choose_database.lower() == 'west':
+        initialize_tcp()
+        break
+    elif choose_database.lower() == 'east':
+        print('thomastisstass')
+        break
+    else:
+        continue
+
+while True:
+    if choose_database.lower() == 'west':
+        run_tcp()
+    else:
+        print('tisstassthomas')
+
+    choose_database = input("new data or shutdown? (new data or database /shutdown) \n")
+    if choose_database == "shutdown":
         shutdown = [user_request]
         tcp_client_socket.send(pickle.dumps(shutdown))
         break
