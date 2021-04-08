@@ -89,7 +89,7 @@ port = 6969
 
 ClientSocket.connect((host, port))
 Response = ClientSocket.recv(1024)
-ser = "Bergen WS"
+ser = "Bergen_WS"
 ClientSocket.send(str.encode(ser))
 while True:
     data_string = pickle.dumps(collect_weather_data())

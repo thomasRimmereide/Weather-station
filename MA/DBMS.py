@@ -1,14 +1,15 @@
 import pandas as pd
 
 
-def put(weather_station_data):
+def put(weather_station_data, type_of_client):
+    database_name = type_of_client+".csv"
     """Put data from weather_station into database"""
     dataframe = pd.concat([pd.Series(v, name=k) for k, v in weather_station_data.items()], axis=1)
     dataframe = dataframe.fillna("-")
     dataframe['date'] = pd.to_datetime(dataframe['date'])
     """Use the python tell function to check if the "database" is empty. if so we add headers if false we dont"""
-    with open("Data.csv", 'a') as database:
-        dataframe.to_csv("Data.csv", mode='a', encoding='utf-8', index=False, header=database.tell() == 0)
+    with open(database_name, 'a') as database:
+        dataframe.to_csv(database_name, mode='a', encoding='utf-8', index=False, header=database.tell() == 0)
 
 
 def get_month(weather_data, month: str):
@@ -29,6 +30,16 @@ def get_period(start_date: str, end_data: str, database):
 
 def new_database():
     """Emptying the database"""
-    database = open("Data.csv", 'r+')
+    database = open("Bergen_WS.csv", 'r+')
     database.truncate(0)
     database.close()
+
+
+def get_request(com_request: list):
+    database_name = com_request[0].capitalize()+"_WS.csv"
+    entire_database = pd.read_csv(database_name)
+    if 'all' in com_request:
+        return entire_database
+    else:
+        return get_period(com_request[-2], com_request[-1], entire_database)
+

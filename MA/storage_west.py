@@ -30,14 +30,6 @@ print('Server is running')
 sock_tcp.listen(5000)
 
 
-# TODO move to DBMS
-def get_request(com_request: list):
-    entire_database = pd.read_csv("Data.csv")
-    if 'all' in com_request:
-        return entire_database
-    else:
-        return DBMS.get_period(com_request[-2], com_request[-1], entire_database)
-
 
 def thread(this_connection):
     """This method decides whats to bee done in a thread
@@ -49,15 +41,17 @@ def thread(this_connection):
     type_of_client = start_package.decode()
 
     while True:
-        if type_of_client == 'Bergen WS':
+        if type_of_client == 'Bergen_WS':
             received_package = this_connection.recv(2048)
-            DBMS.put(pickle.loads(received_package))
-
+            DBMS.put(pickle.loads(received_package), type_of_client)
+        elif type_of_client == "Stavanger_WS":
+            received_package = this_connection.recv(2048)
+            DBMS.put(pickle.loads(received_package), type_of_client)
         elif type_of_client == 'request_computer':
             received_package = this_connection.recv(2048)
             req = pickle.loads(received_package)
             if req[0] != 'shutdown':
-                resp = get_request(req)
+                resp = DBMS.get_request(req)
                 this_connection.sendall(pickle.dumps(resp))
             else:
                 break
@@ -67,6 +61,7 @@ def thread(this_connection):
 
 while True:
     tcp_client, tcp_address = sock_tcp.accept()
+    print(tcp_client)
     print('Connected to: ' + tcp_address[0] + ':' + str(tcp_address[1]))
     start_new_thread(thread, (tcp_client,))
 sock_tcp.close()
