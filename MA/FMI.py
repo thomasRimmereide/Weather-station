@@ -17,6 +17,7 @@ Gjerne se på tidligere oppgaver:)
 import pickle
 import socket
 import os
+from time import sleep
 
 tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
@@ -76,31 +77,29 @@ def storage_east_request():
     udp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udp_client_socket.bind(("localhost", 5555))
     udp_client_socket.sendto(pickle.dumps(request_packet()), ("localhost", 1337))
-    print("sendt")
-    response, addr = udp_client_socket.recvfrom(2048)
-    print(response)
-    print("motatt")
-    print(response.decode())
+    response, addr = udp_client_socket.recvfrom(16384)
+    received_weather_data = pickle.loads(response)
+    print(received_weather_data)
+    udp_client_socket.close()
 
 
 choose_database = input("East or West database: ")
-
+tcp_client_socket.connect((host, port))
 while True:
     if choose_database.lower() == 'west':
         initialize_tcp()
         break
     elif choose_database.lower() == 'east':
-        print('thomastisstass')
         break
     else:
         continue
 
 while True:
     if choose_database.lower() == 'west':
+
         run_tcp()
     else:
-        print('tisstassthomas')
-
+        storage_east_request()
     choose_database = input("choose west, east or shutdown \n")
     if choose_database == "shutdown":
         shutdown = [user_request]
