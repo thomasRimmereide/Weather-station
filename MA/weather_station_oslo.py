@@ -88,9 +88,11 @@ def update_today_date():
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 host = 'localhost'
 port = 6969
-
-while True:
-    data_string = pickle.dumps(collect_weather_data())
-    ClientSocket.sendto(data_string, (host, port))
-    sleep(5)
+try:
+    while True:
+        data_string = pickle.dumps(collect_weather_data())
+        ClientSocket.sendto(data_string, (host, port))
+        sleep(5)
+except KeyboardInterrupt:
+    print('Weather station Oslo is interrupted!')
 ClientSocket.close()
