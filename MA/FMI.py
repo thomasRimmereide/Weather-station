@@ -19,7 +19,7 @@ import socket
 import os
 
 
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
 port = 6969
 
@@ -59,21 +59,21 @@ def request_packet():
         return request_packet_list
 
 
-client_socket.connect((host, port))
+tcp_client_socket.connect((host, port))
 type_of_client = "request_computer"
-client_socket.send(str.encode(type_of_client))
-initial_response = client_socket.recv(1024)
+tcp_client_socket.send(str.encode(type_of_client))
+initial_response = tcp_client_socket.recv(1024)
 print(initial_response.decode())
 
 while True:
 
-    client_socket.send(pickle.dumps(request_packet()))
-    database_response = client_socket.recv(16384)
+    tcp_client_socket.send(pickle.dumps(request_packet()))
+    database_response = tcp_client_socket.recv(16384)
     print(show_request(pickle.loads(database_response)))
     user_request = input("new data or shutdown? (new data/shutdown) \n")
     if user_request == "shutdown":
         shutdown = [user_request]
-        client_socket.send(pickle.dumps(shutdown))
+        tcp_client_socket.send(pickle.dumps(shutdown))
         break
     else:
         continue
@@ -82,6 +82,6 @@ while True:
 
 clear()
 print("Client is disconnected")
-client_socket.close()
+tcp_client_socket.close()
 
 
