@@ -70,7 +70,7 @@ def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
     return data_from_station
 
 
-def save_today_date(today_date=dict()):
+def save_today_date(today_date):
     d = update_today_date()
     d.update(today_date)
     file = open("current_date.pickle", "wb")
