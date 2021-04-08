@@ -88,6 +88,8 @@ def update_today_date():
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 host = 'localhost'
 port = 6969
+ser = "Oslo WS"
+ClientSocket.sendto(str.encode(ser), (host, port))
 try:
     while True:
         data_string = pickle.dumps(collect_weather_data())
