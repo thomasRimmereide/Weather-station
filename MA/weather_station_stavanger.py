@@ -5,7 +5,7 @@ import socket
 import pickle as pickle
 
 """
-Leser info fra station.py, skal egentlig bare bruke info derfra, og sende det videre til storage.py i den formen vi syntes
+Leser info fra station.py, skal egentlig bare bruke info derfra, og sende det videre til storage_west.py i den formen vi syntes
 er best. Tenker vi kan starte med å bruke en csv-fil til å lagre dataen, så hvis vi får tid kan vi bruke mongoDB,
 men har aldri brukt det skikkelig til python.
 
@@ -65,50 +65,41 @@ def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
                 current_day = 0
         current_day += 1
 
-    save_today_date(today_date={"day_stavanger": current_day, "month_stavanger": stavanger_station.month, "year_stavanger": current_year})
+    save_today_date(today_date={"day_stavanger": current_day, "month_stavanger": stavanger_station.month,
+                                "year_stavanger": current_year})
 
     stavanger_station.shut_down()
     return data_from_station
 
 
-def save_today_date(today_date=dict()):
+def save_today_date(today_date):
     d = update_today_date()
     d.update(today_date)
-    file = open("current_date.txt", "wb")
+    file = open("current_date.pickle", "wb")
     pickle.dump(d, file)
     file.close()
 
 
 def update_today_date():
-    with open("current_date.txt", "rb") as data:
+    with open("current_date.pickle", "rb") as data:
         today = data.read()
     d = pickle.loads(today)
     return d
 
 
-"""
+
+ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
 port = 6969
 
 ClientSocket.connect((host, port))
 Response = ClientSocket.recv(1024)
-
+ser = "Stavanger_WS"
+ClientSocket.send(str.encode(ser))
 while True:
-    msg = "weather_station her!!"
     data_string = pickle.dumps(collect_weather_data())
-    ClientSocket.send(data_string)
-
-    ClientSocket.send(str.encode(msg))
-    Response = ClientSocket.recv(1024)
-    print(Response.decode())
-    time.sleep(5)
+    ClientSocket.sendall(data_string)
+    sleep(5)
 ClientSocket.close()
-
-
-
-while {(text := input('> ').lower()) != 'shut down'}:
-    socket.sendto(text.encode(), ('localhost', 55555))
-    msg, addr = socket.recvfrom(2048)
-    print(msg.decode())
-"""

@@ -16,7 +16,12 @@ Gjerne se på tidligere oppgaver:)
 """
 import pickle
 import socket
+import os
 
+
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = 'localhost'
+port = 6969
 
 
 def show_request(weather_data):
@@ -29,36 +34,54 @@ def show_request(weather_data):
         print("Weather data for %s  " % (location_data))
         print(weather_data.reset_index(drop=True))
 
-def request():
-    req = []
-    amount = input("Do you want all the data or a period \n Type: all or period")
-    req.append(amount)
-    if amount == 'all':
-        return req
+
+def clear():
+    if os.name == 'nt':
+        _ = os.system('cls')
     else:
-        start = input("Enter start date for the period yyyy-mm-dd \n")
-        req.append(start)
-        stop = input("Enter stop date for the period yyyy-mm-dd \n ")
-        req.append(stop)
-        return req
+        _ = os.system('clear')
 
 
-ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = 'localhost'
-port = 6969
+def request_packet():
+    """Return a list containing all user request to the database"""
+    request_packet_list = []
+    weather_data_location = input("Enter location")
+    request_packet_list.append(weather_data_location)
+    amount_of_data = input("Do you want all the data or a period \n Type: all or period")
+    request_packet_list.append(amount_of_data)
+    if amount_of_data == 'all':
+        return request_packet_list
+    else:
+        start_date = input("Enter start date for the period yyyy-mm-dd \n")
+        request_packet_list.append(start_date)
+        stop_date = input("Enter stop date for the period yyyy-mm-dd \n ")
+        request_packet_list.append(stop_date)
+        return request_packet_list
 
-ClientSocket.connect((host, port))
-choose_database = "request_computer"
-ClientSocket.send(str.encode(choose_database))
-response = ClientSocket.recv(1024)
-print(response.decode())
+
+client_socket.connect((host, port))
+type_of_client = "request_computer"
+client_socket.send(str.encode(type_of_client))
+initial_response = client_socket.recv(1024)
+print(initial_response.decode())
 
 while True:
 
-    ClientSocket.send(pickle.dumps(request()))
-    response = ClientSocket.recv(4096)
-    print(show_request(pickle.loads(response)))
+    client_socket.send(pickle.dumps(request_packet()))
+    database_response = client_socket.recv(16384)
+    print(show_request(pickle.loads(database_response)))
+    user_request = input("new data or shutdown? (new data/shutdown) \n")
+    if user_request == "shutdown":
+        shutdown = [user_request]
+        client_socket.send(pickle.dumps(shutdown))
+        break
+    else:
+        continue
+    #TODO test clear with terminal
+    clear()
 
+clear()
+print("Client is disconnected")
+client_socket.close()
 
-ClientSocket.close()
 
