@@ -9,38 +9,44 @@ body {
     width: 100%;
     object-fit: cover;
 }
+.header-image-city_name {
+    max-height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
 
 .topnav {
     margin-top: -4px;
-    line-height: 4.50;
+    line-height: 3;
     background-color: #151929;
     overflow: hidden;
 }
 
-/* Style the links inside the navigation bar */
 .topnav a {
     float: right;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 20px;
 
     transition: all 150ms linear;
 }
 
-/* Change the color of links on hover */
 .topnav a:hover {
     background-color: #9895A1;
     color: white;
 }
 
-/* Add a color to the active/current link */
+
 .topnav a.active {
     background-color: #9895A1;
     color: white;
+}
+.topnav a.home {
     float: left;
 }
+
 .uppercase{
     text-transform: capitalize;
 }

@@ -10,12 +10,12 @@
 <body>
 <header>
     <div class="topnav">
-        <a class="active" href="/">Home</a>
-        <a href="/city/oslo">Oslo station</a>
-        <a href="/city/bergen">Bergen station</a>
-        <a href="/city/stavanger">Stavanger station</a>
+        <a href="/" class="home">Home</a>
+        <a href="/city/oslo" class="{{'active' if city_name == 'oslo'}}">Oslo station</a>
+        <a href="/city/bergen" class="{{'active' if city_name == 'bergen'}}">Bergen station</a>
+        <a href="/city/stavanger" class="{{'active' if city_name == 'stavanger'}}">Stavanger station</a>
     </div>
-    <img class="header-image" src="/static/weather_image.jpg" >
+    <img class="header-image-city_name" src="/static/weather_image.jpg" >
 </header>
 
 <h1> <span class ="uppercase">{{city_name}} </span> weather station</h1>
