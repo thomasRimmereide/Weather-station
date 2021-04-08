@@ -30,7 +30,6 @@ print('Server is running')
 sock_tcp.listen(5000)
 
 
-
 def thread(this_connection):
     """This method decides whats to bee done in a thread
     if its a weather station it receive the data and adds it to the database.
