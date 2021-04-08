@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 
-<link rel="stylesheet" href="static/style.css">
 
 <html>
     <head>
-        <title> Weather station </title>
-        <img class = "header-image" src="/static/weather_image.jpg" >
-        <div class="topnav">
-            <a class="active" href="#home">Home</a>
-            <a href="#news">News</a>
-            <a href="#contact">Contact</a>
-            <a href="#about">About</a>
-        </div>
+        <title>Weather station</title>
+        <link rel="stylesheet" href="static/normalize.css">
+        <link rel="stylesheet" href="static/style.css">
     </head>
     <body>
-        <p> Hello {{username}}! </p>
-        <a href="/oslo">Oslo station</a><br>
-        <a href="/bergen">Oslo station</a><br>
-        <a href="/stavanger">Oslo station</a><br>
-    </body>
+        <header>
+            <div class="topnav">
+                <a class="active" href="#home">Home</a>
+                <a href="#oslo">Oslo station</a>
+                <a href="#bergen">Bergen station</a>
+                <a href="#stavanger">Stavanger station</a>
+            </div>
+            <img class="header-image" src="/static/weather_image.jpg" >
+        </header>
 
+    </body>
 </html>
