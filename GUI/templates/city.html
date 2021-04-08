@@ -15,10 +15,36 @@
         <a href="/city/bergen" class="{{'active' if city_name == 'bergen'}}">Bergen station</a>
         <a href="/city/stavanger" class="{{'active' if city_name == 'stavanger'}}">Stavanger station</a>
     </div>
-    <img class="header-image-city_name" src="/static/weather_image.jpg" >
 </header>
 
-<h1> <span class ="uppercase">{{city_name}} </span> weather station</h1>
+
+<div class="content">
+    <div class="content-text">
+        <span class ="content-city-name">{{city_name}}</span>
+        <br/>
+        <span class="content-weather-station">
+            weather station
+        </span>
+    </div>
+</div>
+
+<div class="sidebar">
+    <div class="sidebar-nav">
+        <h3> Choose station: </h3>
+        <a href="/city/oslo" class="{{'active' if city_name == 'oslo'}}">Oslo station</a>
+        <a href="/city/bergen" class="{{'active' if city_name == 'bergen'}}">Bergen station</a>
+        <a href="/city/stavanger" class="{{'active' if city_name == 'stavanger'}}">Stavanger station</a>
+    </div>
+    <h3>Data:</h3>
+    <table>
+        {% for datapoint in data %}
+        <tr>
+            <td>{{datapoint[1]}} temp is {{datapoint[3]}}and rain is {{datapoint[2]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
 
 </body>
 </html>

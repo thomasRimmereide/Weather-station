@@ -11,9 +11,15 @@ def index():
 # /city/bergen
 @app.route('/city/<city_name>')
 def get_city_weather_data(city_name):
-    print("City name is " + city_name)
-    return render_template('city.html', city_name=city_name)
+    file = open("../MA/Oslo_WS.csv", "r")
 
+    test_data = []
+    for line in file.readlines()[1:]:
+        test_data.append(line.split(","))
+
+    return render_template('city.html', city_name=city_name, data=test_data)
+
+# @app.route('/city/<city_name>/from/<fromDate>/to/<toDate>')
 
 if __name__ == '__main__':
     app.run()

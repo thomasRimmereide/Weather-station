@@ -1,8 +1,14 @@
 body {
     background-color: #151929;
     color: white;
+    font-family: Arial;
+    background-image: url("weather_image.jpg");
+    background-position: top;;
 }
 
+.city-background-image {
+    background-image: url("weather_image.jpg");
+}
 
 .header-image {
     max-height: 400px;
@@ -16,6 +22,7 @@ body {
 }
 
 .topnav {
+    display: none;
     margin-top: -4px;
     line-height: 3;
     background-color: #151929;
@@ -47,6 +54,65 @@ body {
     float: left;
 }
 
-.uppercase{
+.content-city-name {
     text-transform: capitalize;
 }
+
+.content-weather-station {
+    font-size: 20px;
+    font-weight: 400;
+    display: block;
+}
+
+.content {
+    width: 55%;
+    height: 100vh;
+    position: relative;
+}
+
+.content-text {
+    color: #151929;
+    position: absolute;
+    padding: 30px;
+    bottom: 20%;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.sidebar {
+    width: 45%;
+    height: 100vh;
+    position: absolute;
+    right: 0;
+    top:0;
+    background: rgba(21,25,41,0.7);
+    backdrop-filter: blur(6px);
+    box-sizing: border-box;
+    padding: 20px;
+    overflow: scroll;
+}
+
+.sidebar-nav {
+    border-bottom: 1px solid white;
+    padding-bottom: 20px;
+}
+.sidebar-nav a {
+    display: table;
+    color: aliceblue;
+    text-decoration: none;
+    margin-bottom: 4px;
+    padding: 4px;
+    margin-left: -4px;
+}
+.sidebar-nav a:hover{
+    background-color: #9895A1;
+    color: white;
+}
+
+.sidebar-nav a.active {
+    display: none;
+}
+
+
+
+

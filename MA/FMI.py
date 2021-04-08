@@ -57,6 +57,32 @@ def request_packet():
         request_packet_list.append(stop_date)
         return request_packet_list
 
+def new_request_package():
+    """Return a list containing all user request to the database as given by user in terminal"""
+    request_packet_list = []
+    weather_data_location = input("Enter location: ")
+    amount_of_data = input("Do you want all the data or a period \n Type: all or period: ")
+
+    request_packet_list.append(weather_data_location)
+    request_packet_list.append(amount_of_data)
+    if amount_of_data == 'all':
+        return create_data_request(weather_data_location)
+
+    start_date = input("Enter start date for the period yyyy-mm-dd \n")
+    stop_date = input("Enter stop date for the period yyyy-mm-dd \n ")
+    return create_data_request(weather_data_location, amount_of_data, start_date, stop_date)
+
+
+def create_data_request(location, amount_of_data="all", start_date="", stop_date=""):
+    """Return a list containing all user request to the database"""
+    request_data = [location, amount_of_data]
+    if amount_of_data == "all":
+        return request_data
+
+    request_data.append(start_date)
+    request_data.append(stop_date)
+    return request_data
+
 
 def initialize_tcp():
     tcp_client_socket.connect((host, port))
