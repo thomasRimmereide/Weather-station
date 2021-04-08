@@ -5,7 +5,7 @@ import socket
 import pickle as pickle
 
 """
-Leser info fra station.py, skal egentlig bare bruke info derfra, og sende det videre til storage.py i den formen vi syntes
+Leser info fra station.py, skal egentlig bare bruke info derfra, og sende det videre til storage_west.py i den formen vi syntes
 er best. Tenker vi kan starte med å bruke en csv-fil til å lagre dataen, så hvis vi får tid kan vi bruke mongoDB,
 men har aldri brukt det skikkelig til python.
 
