@@ -21,7 +21,7 @@ import os
 
 def show_request(weather_data):
     """Print the get request to terminal or error message if not in database"""
-    #TODO Move to storage
+    # TODO Move to storage
     if weather_data.empty:
         print("The requested data is not found in database")
     else:
@@ -109,11 +109,9 @@ while True:
         break
     else:
         continue
-    #TODO test clear with terminal
+    # TODO test clear with terminal
     clear()
 
 clear()
 print("Client is disconnected")
 tcp_client_socket.close()
-
-
