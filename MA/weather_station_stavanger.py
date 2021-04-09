@@ -88,7 +88,7 @@ def update_today_date():
 
 
 
-ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
 
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
@@ -97,7 +97,6 @@ port = 6969
 ClientSocket.connect((host, port))
 Response = ClientSocket.recv(1024)
 location = "Stavanger_WS"
-stavanger = [location]
 ClientSocket.sendall(pickle.dumps(location))
 while True:
     data_string = pickle.dumps(collect_weather_data())
