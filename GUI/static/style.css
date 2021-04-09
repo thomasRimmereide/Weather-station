@@ -3,7 +3,10 @@ body {
     color: floralwhite;
     font-family: "Franklin Gothic Book";
     background-image: url("weather_image.jpg");
-    background-position: top;;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+
 }
 
 .city-background-image {
