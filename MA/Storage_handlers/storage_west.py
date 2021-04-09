@@ -14,11 +14,8 @@ Kunne lagre data fra en dictonary (feltnavn står i station.py) til en CSV fil.
 
 import pickle
 
-import pandas as pd
-from pandas.errors import EmptyDataError
 import socket
-import os
-import DBMS
+from MA.Help_functions import DBMS
 from _thread import start_new_thread
 
 sock_tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,32 +31,27 @@ def thread(this_connection):
     """This method decides whats to bee done in a thread
     if its a weather station it receive the data and adds it to the database.
     if its a user client it handle client requests and send a response packet"""
-    # this_connection.send(str.encode('Connected to Database West'))
     start_package = this_connection.recv(2048)
     type_of_client = pickle.loads(start_package)
     print(type_of_client)
     while True:
-        if type_of_client[0] == 'Bergen_WS':
+        if type_of_client == 'Bergen_WS':
             received_package = this_connection.recv(2048)
             DBMS.put(pickle.loads(received_package), type_of_client)
-        elif type_of_client[0] == "Stavanger_WS":
+        elif type_of_client == "Stavanger_WS":
             received_package = this_connection.recv(2048)
             DBMS.put(pickle.loads(received_package), type_of_client)
         else:
             received_package = this_connection.recv(2048)
-            req = pickle.loads(received_package)
-            if req[0] != 'shutdown':
-                resp = DBMS.get_request(req)
-                this_connection.sendall(pickle.dumps(resp))
-            else:
-                break
+            request = pickle.loads(received_package)
+            response = DBMS.get_request(request)
+            this_connection.sendall(pickle.dumps(response))
     print("shutdown")
     this_connection.close()
 
 
 while True:
     tcp_client, tcp_address = sock_tcp.accept()
-    print(tcp_client)
     print('Connected to: ' + tcp_address[0] + ':' + str(tcp_address[1]))
     start_new_thread(thread, (tcp_client,))
 sock_tcp.close()

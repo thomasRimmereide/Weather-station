@@ -1,8 +1,8 @@
-from station import StationSimulator
+from MA.Help_functions.station import StationSimulator
 
 from time import sleep
-import socket
 import pickle as pickle
+import socket
 
 """
 Leser info fra station.py, skal egentlig bare bruke info derfra, og sende det videre til storage_west.py i den formen vi syntes
@@ -70,32 +70,27 @@ def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
 def save_today_date(today_date):
     d = update_today_date()
     d.update(today_date)
-    file = open("current_date.pickle", "wb")
+    file = open("../Database_files/current_date.pickle", "wb")
     pickle.dump(d, file)
     file.close()
 
 
 def update_today_date():
-    with open("current_date.pickle", "rb") as data:
+    with open("../Database_files/current_date.pickle", "rb") as data:
         today = data.read()
     d = pickle.loads(today)
     return d
 
-collect_weather_data(72)
 
-"""
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'
 port = 6969
 
 ClientSocket.connect((host, port))
-Response = ClientSocket.recv(1024)
 location = "Bergen_WS"
 ClientSocket.send(pickle.dumps(location))
 while True:
     data_string = pickle.dumps(collect_weather_data())
     ClientSocket.sendall(data_string)
-    sleep(5)
+    sleep(60)
 ClientSocket.close()
-
-"""

@@ -16,8 +16,7 @@ Gjerne se på tidligere oppgaver:)
 """
 import pickle
 import socket
-import terminal_handler as th
-
+from MA.Help_functions import terminal_handler as th
 
 tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = 'localhost'

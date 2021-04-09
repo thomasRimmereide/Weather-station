@@ -1,4 +1,4 @@
-from station import StationSimulator
+from MA.Help_functions.station import StationSimulator
 
 from time import sleep
 import socket
@@ -22,7 +22,6 @@ def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
     global date_to_start_next_reading_on
 
     date_to_start_next_reading_on = update_today_date()
-    simulation_interval = 1
 
     # Initializing data from station
     stavanger_station = StationSimulator(simulation_interval=simulation_interval)
@@ -75,19 +74,16 @@ def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
 def save_today_date(today_date):
     d = update_today_date()
     d.update(today_date)
-    file = open("current_date.pickle", "wb")
+    file = open("../Database_files/current_date.pickle", "wb")
     pickle.dump(d, file)
     file.close()
 
 
 def update_today_date():
-    with open("current_date.pickle", "rb") as data:
+    with open("../Database_files/current_date.pickle", "rb") as data:
         today = data.read()
     d = pickle.loads(today)
     return d
-
-
-
 
 
 ClientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -95,11 +91,10 @@ host = 'localhost'
 port = 6969
 
 ClientSocket.connect((host, port))
-Response = ClientSocket.recv(1024)
 location = "Stavanger_WS"
 ClientSocket.sendall(pickle.dumps(location))
 while True:
     data_string = pickle.dumps(collect_weather_data())
     ClientSocket.sendall(data_string)
-    sleep(5)
+    sleep(60)
 ClientSocket.close()
