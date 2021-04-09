@@ -31,5 +31,3 @@ print(3)
 print(save_today_date(b))
 print(4)
 print(update_today_date())
-
-

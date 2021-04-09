@@ -6,7 +6,6 @@ import MA.Help_functions.DBMS as db
 
 host = "localhost"
 port = 1337
-
 ServerSock = socket(AF_INET, SOCK_DGRAM)
 ServerSock.bind((host, port))
 
