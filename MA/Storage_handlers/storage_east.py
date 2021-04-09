@@ -25,8 +25,10 @@ def threaded_server(connected_client):
 print("Storage east server has started")
 
 while True:
-    data, addr = ServerSock.recvfrom(2048)
-    start_new_thread(threaded_server, (data,))
-
+    try:
+        data, addr = ServerSock.recvfrom(2048)
+        start_new_thread(threaded_server, (data,))
+    except KeyboardInterrupt:
+        print("Storage east has stopped")
 ServerSock.close()
 socket.shutdown(ServerSock)

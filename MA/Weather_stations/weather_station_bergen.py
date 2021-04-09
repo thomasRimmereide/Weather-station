@@ -89,8 +89,11 @@ port = 6969
 ClientSocket.connect((host, port))
 location = "Bergen_WS"
 ClientSocket.send(pickle.dumps(location))
-while True:
-    data_string = pickle.dumps(collect_weather_data())
-    ClientSocket.sendall(data_string)
-    sleep(60)
+try:
+    while True:
+        data_string = pickle.dumps(collect_weather_data())
+        ClientSocket.sendall(data_string)
+        sleep(60)
+except KeyboardInterrupt:
+    print("Weather station Bergen has stopped")
 ClientSocket.close()

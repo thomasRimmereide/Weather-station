@@ -96,6 +96,6 @@ try:
         ClientSocket.sendto(data_string, (host, port))
         sleep(60)
 except KeyboardInterrupt:
-    print('Weather station Oslo is interrupted!')
+    print("Weather station Oslo has stopped!")
 
 ClientSocket.close()
