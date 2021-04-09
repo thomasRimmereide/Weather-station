@@ -10,7 +10,9 @@ def get_data(request_data):
     udp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udp_client_socket.bind(("localhost", 5555))
     udp_client_socket.sendto(pickle.dumps(request_data), ("localhost", 1337))
-    response, addr = udp_client_socket.recvfrom(16384)
+    print("Test C")
+    response, addr = udp_client_socket.recvfrom(65536)
+    print("Test D")
     return pickle.loads(response).values.tolist()
 
 
@@ -22,9 +24,10 @@ def index():
 # /city/bergen
 @app.route('/city/<city_name>')
 def get_city_weather_data(city_name):
+    print("Getting data for " + city_name)
     request_data = [city_name, "all"]
     data = get_data(request_data)
-    print(data)
+    print("Got " + str(len(data)) + " data points")
 
     min_date = ""
     max_date = ""

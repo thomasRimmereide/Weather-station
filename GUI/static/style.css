@@ -9,21 +9,6 @@ body {
 
 }
 
-.city-background-image {
-    background-image: url("weather_image.jpg");
-}
-
-.header-image {
-    max-height: 400px;
-    width: 100%;
-    object-fit: cover;
-}
-.header-image-city_name {
-    max-height: 200px;
-    width: 100%;
-    object-fit: cover;
-}
-
 .content-city-name {
     text-transform: capitalize;
 }
