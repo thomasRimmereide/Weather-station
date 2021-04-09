@@ -19,18 +19,23 @@ def thread(this_connection):
     if its a user client it handle client requests and send a response packet"""
     start_package = this_connection.recv(2048)
     type_of_client = pickle.loads(start_package)
-    while True:
-        if type_of_client == 'Bergen_WS':
-            received_package = this_connection.recv(2048)
-            DBMS.put(pickle.loads(received_package), type_of_client)
-        elif type_of_client == "Stavanger_WS":
-            received_package = this_connection.recv(2048)
-            DBMS.put(pickle.loads(received_package), type_of_client)
-        else:
-            received_package = this_connection.recv(2048)
-            request = pickle.loads(received_package)
-            response = DBMS.get_request(request)
-            this_connection.sendall(pickle.dumps(response))
+    try:
+        while True:
+            if type_of_client == 'Bergen_WS':
+                received_package = this_connection.recv(2048)
+                DBMS.put(pickle.loads(received_package), type_of_client)
+            elif type_of_client == "Stavanger_WS":
+                received_package = this_connection.recv(2048)
+                DBMS.put(pickle.loads(received_package), type_of_client)
+            else:
+                received_package = this_connection.recv(2048)
+                request = pickle.loads(received_package)
+                response = DBMS.get_request(request)
+                this_connection.sendall(pickle.dumps(response))
+    except KeyboardInterrupt:
+        print("Storage west has stopped")
+    print("shutdown")
+    this_connection.close()
 
 
 while True:
