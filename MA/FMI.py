@@ -116,6 +116,7 @@ while True:
         initialize_tcp()
         break
     elif choose_database.lower() == 'east':
+        initialize_tcp()
         break
     else:
         continue
