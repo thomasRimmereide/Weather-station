@@ -8,7 +8,7 @@ import pickle as pickle
 date_to_start_next_reading_on = {"day_stavanger": 1, "month_stavanger": "May", "year_stavanger": 1981}
 
 
-def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
+def collect_weather_data(amount_of_days_to_log=1, simulation_interval=1):
     global date_to_start_next_reading_on
     date_to_start_next_reading_on = update_today_date()
     stavanger_station = StationSimulator(simulation_interval=simulation_interval)
