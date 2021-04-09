@@ -35,19 +35,19 @@ def thread(this_connection):
     """This method decides whats to bee done in a thread
     if its a weather station it receive the data and adds it to the database.
     if its a user client it handle client requests and send a response packet"""
-
-    this_connection.send(str.encode('Connected to Database West'))
+    # this_connection.send(str.encode('Connected to Database West'))
     start_package = this_connection.recv(2048)
-    type_of_client = start_package.decode()
-
+    type_of_client = pickle.loads(start_package)
+    print(type_of_client)
     while True:
-        if type_of_client == 'Bergen_WS':
+        if type_of_client[0] == 'Bergen_WS':
             received_package = this_connection.recv(2048)
             DBMS.put(pickle.loads(received_package), type_of_client)
         elif type_of_client[0] == "Stavanger_WS":
             received_package = this_connection.recv(2048)
             DBMS.put(pickle.loads(received_package), type_of_client)
-        elif type_of_client == 'request_computer':
+        else:
+            print("dustbnudfgjkløfgbn")
             received_package = this_connection.recv(2048)
             print("receieieveiveievd")
             print(received_package)

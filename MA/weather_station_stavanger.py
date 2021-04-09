@@ -96,8 +96,9 @@ port = 6969
 
 ClientSocket.connect((host, port))
 Response = ClientSocket.recv(1024)
-ser = "Stavanger_WS"
-ClientSocket.send(str.encode(ser))
+location = "Stavanger_WS"
+stavanger = [location]
+ClientSocket.sendall(pickle.dumps(location))
 while True:
     data_string = pickle.dumps(collect_weather_data())
     ClientSocket.sendall(data_string)

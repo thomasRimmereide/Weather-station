@@ -86,11 +86,11 @@ def create_data_request(location, amount_of_data="all", start_date="", stop_date
 
 
 def initialize_tcp():
-    tcp_client_socket.connect((host, port))
-    type_of_client = "request_computer"
-    tcp_client_socket.send(str.encode(type_of_client))
-    initial_response = tcp_client_socket.recv(1024)
-    print(initial_response.decode())
+    # tcp_client_socket.connect((host, port))
+    type_of_client = ["request_computer"]
+    tcp_client_socket.send(pickle.dumps(type_of_client))
+    # initial_response = tcp_client_socket.recv(1024)
+    # print(initial_response.decode())
 
 
 def run_tcp():
@@ -107,6 +107,9 @@ def storage_east_request():
     received_weather_data = pickle.loads(response)
     print(received_weather_data)
     udp_client_socket.close()
+
+
+# tcp_client_socket.connect((host, port))
 
 
 choose_database = input("East or West database: ")
