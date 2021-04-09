@@ -27,6 +27,10 @@ INF142-Mandatory-Assignment-VET
        located in ..MA/Weather_stations.
     3. Then start the user client which is the file FMI.py located in ..MA/FMI.py
 
+# How to run code using web application 
+    
+    TODO VILDE MÅ FYLLE INN HER!!!!!
+
 ###Authors 
     - Vilde Emilie Søvik Haugstad
     - Thomas Rimmereide 
