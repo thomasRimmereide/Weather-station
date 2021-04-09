@@ -26,12 +26,11 @@ host = 'localhost'
 tcp_port = 6969
 sock_tcp.bind((host, tcp_port))
 
-print('Server is running')
+print('Storage west server has started')
 sock_tcp.listen(5000)
 
 
 def thread(this_connection):
-    print("tisstgass")
     """This method decides whats to bee done in a thread
     if its a weather station it receive the data and adds it to the database.
     if its a user client it handle client requests and send a response packet"""
@@ -47,12 +46,8 @@ def thread(this_connection):
             received_package = this_connection.recv(2048)
             DBMS.put(pickle.loads(received_package), type_of_client)
         else:
-            print("dustbnudfgjkløfgbn")
             received_package = this_connection.recv(2048)
-            print("receieieveiveievd")
-            print(received_package)
             req = pickle.loads(received_package)
-            print(req)
             if req[0] != 'shutdown':
                 resp = DBMS.get_request(req)
                 this_connection.sendall(pickle.dumps(resp))
