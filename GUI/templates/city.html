@@ -22,21 +22,61 @@
 <div class="sidebar">
     <div class="sidebar-nav">
         <h3> Choose station </h3>
-        <div class="sidebar-nav"> </div>
+        <div class="sidebar-nav"></div>
         <a href="/" class="home">Home</a>
         <a href="/city/oslo" class="{{'active' if city_name == 'oslo'}}">Oslo station</a>
         <a href="/city/bergen" class="{{'active' if city_name == 'bergen'}}">Bergen station</a>
         <a href="/city/stavanger" class="{{'active' if city_name == 'stavanger'}}">Stavanger station</a>
     </div>
-    <h3>Data:</h3>
-    <table>
-        {% for datapoint in data %}
-        <tr>
-            <td>{{datapoint[1]}} temp is {{datapoint[3]}}and rain is {{datapoint[2]}}</td>
-        </tr>
-        {% endfor %}
+    <div class="date-pickers">
+        <div class="date-wrapper">
+            <h3>Choose start date</h3>
+            <input id="from_date"
+                   class="date-field"
+                   value="{{min_date}}"
+                   type="date"
+                   min="{{min_date}}"
+                   max="{{max_date}}"
+            >
+        </div>
+        <div class="date-wrapper">
+            <h3>Choose end date</h3>
+            <input id="to_date"
+                   class="date-field"
+                   value="{{max_date}}"
+                   type="date"
+                   min="{{min_date}}"
+                   max="{{max_date}}"
+            >
+        </div>
+    </div>
+
+    <table id="data">
     </table>
+
 </div>
+
+<script>
+    function filterData() {
+        let data_table = document.getElementById("data");
+        let from_date = document.getElementById("from_date").value;
+        let to_date = document.getElementById("to_date").value;
+
+        console.log("Building data table from", from_date, "to", to_date);
+        filtered_data = "<tr><th>Date</th><th>Temperature</th><th>Rain</th></tr>";
+        {% for datapoint in data %}
+            date = "{{datapoint[1]}}";
+            if (date >= from_date && date <= to_date)
+                filtered_data += "<tr><td>{{datapoint[1]}}</td><td>{{datapoint[3]}}</td><td>{{datapoint[2]}}</td></td></tr>"
+        {% endfor %}
+
+        data_table.innerHTML = filtered_data;
+    }
+    filterData();
+
+    document.getElementById("from_date").addEventListener('change', filterData);
+    document.getElementById("to_date").addEventListener('change', filterData);
+</script>
 
 </body>
 </html>

@@ -26,7 +26,7 @@ body {
 }
 
 .content-weather-station {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 400;
     display: block;
 }
@@ -42,12 +42,12 @@ body {
     position: absolute;
     padding: 30px;
     bottom: 20%;
-    font-size: 40px;
+    font-size: 60px;
     font-weight: bold;
 }
 
 .sidebar {
-    width: 45%;
+    width: 50%;
     height: 100vh;
     position: absolute;
     right: 0;
@@ -88,6 +88,43 @@ body {
 }
 
 
+.date-pickers {
+    border-bottom: 1px solid #c2c2c2;
+    padding-bottom: 20px;
+}
 
+.date-wrapper {
+    display: inline-block;
+    width: 49%;
+    max-width: 200px;
+}
 
+.date-field {
+    border-radius: 30px;
+    border: 1px solid floralwhite;
+    background-color: transparent;
+    color: floralwhite;
+    padding: 2px 8px;
+}
 
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+table, th, td {
+    border-collapse: collapse;
+    border: 1px solid floralwhite;
+}
+table {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+}
+td {
+    padding: 3px 6px;
+    min-width: 60px;
+}
+
+p {
+    padding: 2px;
+}
