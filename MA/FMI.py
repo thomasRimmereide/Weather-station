@@ -1,4 +1,3 @@
-
 import pickle
 import socket
 from MA.Help_functions import terminal_handler as th

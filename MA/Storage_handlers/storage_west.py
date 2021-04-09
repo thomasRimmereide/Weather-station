@@ -34,13 +34,16 @@ def thread(this_connection):
                 this_connection.sendall(pickle.dumps(response))
     except KeyboardInterrupt:
         print("Storage west has stopped")
-    print("shutdown")
     this_connection.close()
 
 
-while True:
-    tcp_client, tcp_address = sock_tcp.accept()
-    print('Connected to: ' + tcp_address[0] + ':' + str(tcp_address[1]))
-    start_new_thread(thread, (tcp_client,))
-sock_tcp.close()
-socket.socket.shutdown(sock_tcp)
+try:
+    while True:
+        tcp_client, tcp_address = sock_tcp.accept()
+        print('Connected to: ' + tcp_address[0] + ':' + str(tcp_address[1]))
+        start_new_thread(thread, (tcp_client,))
+
+except KeyboardInterrupt:
+    print("Storage west has stopped")
+    sock_tcp.close()
+

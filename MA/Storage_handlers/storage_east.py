@@ -29,5 +29,5 @@ while True:
         start_new_thread(threaded_server, (data,))
     except KeyboardInterrupt:
         print("Storage east has stopped")
-ServerSock.close()
-socket.shutdown(ServerSock)
+        ServerSock.close()
+

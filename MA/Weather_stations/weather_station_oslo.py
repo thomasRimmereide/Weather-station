@@ -6,31 +6,23 @@ import pickle as pickle
 
 
 global date_to_start_next_reading_on
-
 date_to_start_next_reading_on = {"day_oslo": 1, "month_oslo": "May", "year_oslo": 1981}
 
 
 def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
     global date_to_start_next_reading_on
-
     date_to_start_next_reading_on = update_today_date()
 
-    # Initializing data from station
     oslo_station = StationSimulator(simulation_interval=simulation_interval)
 
     days_of_month = getattr(oslo_station, "_days_of_month", None)
-
-    # Sets the current date and month
     current_day = date_to_start_next_reading_on.get("day_oslo")
     oslo_station.month = date_to_start_next_reading_on.get("month_oslo")
     current_year = date_to_start_next_reading_on.get("year_oslo")
-
     oslo_station.location = "Oslo"
 
-    # Dictionary to be sent to storage
     data_from_station = {"location": [], "date": [], "rain": [],
                          "temperature": []}
-
     oslo_station.turn_on()
 
     for _ in range(1, amount_of_days_to_log + 1):
