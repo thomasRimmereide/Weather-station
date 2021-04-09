@@ -38,15 +38,15 @@ def show_request(weather_data):
 def new_request_package():
     """Return a list containing all user request to the database as given by user in terminal"""
     request_packet_list = []
-    weather_data_location = th.choose_location()#input("Enter location: ")
-    amount_of_data = th.choose_amount() #input("Do you want all the data or a period \n Type: all or period: ")
+    weather_data_location = th.choose_location()
+    amount_of_data = th.choose_amount()
 
     request_packet_list.append(weather_data_location)
     request_packet_list.append(amount_of_data)
     if amount_of_data == 'all':
         return create_data_request(weather_data_location)
-    start_date = th.period("start") # input("Enter start date for the period yyyy-mm-dd \n")
-    stop_date = th.period("stop") # input("Enter stop date for the period yyyy-mm-dd \n ")
+    start_date = th.period("start")
+    stop_date = th.period("stop")
     return create_data_request(weather_data_location, amount_of_data, start_date, stop_date)
 
 
@@ -83,7 +83,7 @@ def storage_east_request():
 
 
 tcp_client_socket.connect((host, port))
-choose_database = th.initial_user_input() #= input_from_user("East or West database: ", 'west', 'east')
+choose_database = th.initial_user_input()
 initialize_tcp()
 while True:
     if choose_database.lower() == 'west':
