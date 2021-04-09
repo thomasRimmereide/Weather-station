@@ -26,3 +26,8 @@ INF142-Mandatory-Assignment-VET
        Start weather_station_bergen.py, weather_station_stavanger.py, weather_station_oslo.py 
        located in ..MA/Weather_stations.
     3. Then start the user client which is the file FMI.py located in ..MA/FMI.py
+
+###Authors 
+    - Vilde Emilie Søvik Haugstad
+    - Thomas Rimmereide 
+    - Erlend Osland Nytveit
