@@ -52,7 +52,7 @@ def initialize_tcp():
 
 def send_receive_storage_west():
     tcp_client_socket.send(pickle.dumps(new_request_package()))
-    database_response = tcp_client_socket.recv(16384)
+    database_response = tcp_client_socket.recv(65536)
     print(pretty_print_data(pickle.loads(database_response)))
 
 
@@ -60,7 +60,7 @@ def send_receive_storage_east():
     udp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udp_client_socket.bind(("localhost", 5555))
     udp_client_socket.sendto(pickle.dumps(new_request_package()), ("localhost", 1337))
-    response, addr = udp_client_socket.recvfrom(16384)
+    response, addr = udp_client_socket.recvfrom(65536)
     received_weather_data = pickle.loads(response)
     print(received_weather_data)
     udp_client_socket.close()
