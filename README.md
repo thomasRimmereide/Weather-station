@@ -7,8 +7,9 @@ INF142-Mandatory-Assignment-VET
     - time    - Is used to send data periodically from weather stations 
 
 # How it works 
-    #####################link to system_overview #######################
 
+![alt text](https://raw.githubusercontent.com/thomasRimmereide/INF142-Mandatory-Assignment-VET/main/MA/system_overview.png?token=AQDSZ2M7HO232DSLDXF7BMLAOCACA)
+    
     Storage_west is a database that recivie data periodically from weather_station Bergen and Stavanger.
     It stores the recived data to the file Bergen_WS.csv and Stavanger_WS.csv using the DMBS.
     It also recive data request from FMI and app, finds the requested data and returns it to the client asking for data.
