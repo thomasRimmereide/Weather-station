@@ -1,7 +1,7 @@
 body {
     background-color: #151929;
-    color: white;
-    font-family: Arial;
+    color: floralwhite;
+    font-family: "Franklin Gothic Book";
     background-image: url("weather_image.jpg");
     background-position: top;;
 }
@@ -19,39 +19,6 @@ body {
     max-height: 200px;
     width: 100%;
     object-fit: cover;
-}
-
-.topnav {
-    display: none;
-    margin-top: -4px;
-    line-height: 3;
-    background-color: #151929;
-    overflow: hidden;
-}
-
-.topnav a {
-    float: right;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 20px;
-
-    transition: all 150ms linear;
-}
-
-.topnav a:hover {
-    background-color: #9895A1;
-    color: white;
-}
-
-
-.topnav a.active {
-    background-color: #9895A1;
-    color: white;
-}
-.topnav a.home {
-    float: left;
 }
 
 .content-city-name {
@@ -93,16 +60,19 @@ body {
 }
 
 .sidebar-nav {
-    border-bottom: 1px solid white;
-    padding-bottom: 20px;
+    border-bottom: 1px solid #c2c2c2;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    margin-top: -15px;
 }
 .sidebar-nav a {
     display: table;
-    color: aliceblue;
+    color: #c2c2c2;
     text-decoration: none;
     margin-bottom: 4px;
     padding: 4px;
     margin-left: -4px;
+    margin-top: 4px;
 }
 .sidebar-nav a:hover{
     background-color: #9895A1;
@@ -112,6 +82,11 @@ body {
 .sidebar-nav a.active {
     display: none;
 }
+
+.home-button {
+    float: left;
+}
+
 
 
 
