@@ -3,7 +3,6 @@ import pandas as pd
 
 def put(weather_station_data, type_of_client):
     database_name = "../Database_files/"+type_of_client+".csv"
-    print(type_of_client[0])
     """Put data from weather_station into database"""
     dataframe = pd.concat([pd.Series(v, name=k) for k, v in weather_station_data.items()], axis=1)
     dataframe = dataframe.fillna("-")
@@ -29,7 +28,7 @@ def get_period(start_date: str, end_data: str, database):
     return database.loc[database['date'].between(start_date, end_data)]
 
 
-def new_database():
+def empty_database():
     """Emptying the database"""
     database = open("../Database_files/Bergen_WS.csv", 'r+')
     database.truncate(0)
@@ -43,4 +42,3 @@ def get_request(com_request: list):
         return entire_database
     else:
         return get_period(com_request[-2], com_request[-1], entire_database)
-

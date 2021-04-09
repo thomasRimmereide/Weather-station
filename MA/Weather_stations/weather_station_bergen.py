@@ -4,14 +4,6 @@ from time import sleep
 import pickle as pickle
 import socket
 
-"""
-Leser info fra station.py, skal egentlig bare bruke info derfra, og sende det videre til storage_west.py i den formen vi syntes
-er best. Tenker vi kan starte med å bruke en csv-fil til å lagre dataen, så hvis vi får tid kan vi bruke mongoDB,
-men har aldri brukt det skikkelig til python.
-
-Kan hende det er best å lagre i dictonary for å få det best inn i csv-filen, eller bruke list-in-list for å få verdiene
-med riktig parameter. Parametrene ligger i en kommentar i station.py. Vi kan også bruke example.py som inspirasjon til denne.
-"""
 
 global date_to_start_next_reading_on
 date_to_start_next_reading_on = {"day_bergen": 1, "month_bergen": "May", "year_bergen": 1981}
@@ -61,7 +53,8 @@ def collect_weather_data(amount_of_days_to_log=10, simulation_interval=1):
                 current_day = 0
         current_day += 1
 
-    save_today_date(today_date={"day_bergen": current_day, "month_bergen": bergen_station.month, "year_bergen": current_year})
+    save_today_date(today_date={"day_bergen": current_day, "month_bergen": bergen_station.month,
+                                "year_bergen": current_year})
     bergen_station.shut_down()
 
     return data_from_station
@@ -89,8 +82,11 @@ port = 6969
 ClientSocket.connect((host, port))
 location = "Bergen_WS"
 ClientSocket.send(pickle.dumps(location))
-while True:
-    data_string = pickle.dumps(collect_weather_data())
-    ClientSocket.sendall(data_string)
-    sleep(60)
+try:
+    while True:
+        data_string = pickle.dumps(collect_weather_data())
+        ClientSocket.sendall(data_string)
+        sleep(60)
+except KeyboardInterrupt:
+    print("Weather station Bergen has stopped")
 ClientSocket.close()

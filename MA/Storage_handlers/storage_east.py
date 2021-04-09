@@ -6,7 +6,6 @@ import MA.Help_functions.DBMS as db
 
 host = "localhost"
 port = 1337
-
 ServerSock = socket(AF_INET, SOCK_DGRAM)
 ServerSock.bind((host, port))
 
@@ -25,8 +24,10 @@ def threaded_server(connected_client):
 print("Storage east server has started")
 
 while True:
-    data, addr = ServerSock.recvfrom(2048)
-    start_new_thread(threaded_server, (data,))
-
+    try:
+        data, addr = ServerSock.recvfrom(2048)
+        start_new_thread(threaded_server, (data,))
+    except KeyboardInterrupt:
+        print("Storage east has stopped")
 ServerSock.close()
 socket.shutdown(ServerSock)

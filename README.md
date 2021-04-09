@@ -16,7 +16,7 @@ INF142-Mandatory-Assignment-VET
     Both the user clients and the weather stations communicate with Storage_west over TCP
 
     Storage_east works in a similar way only difference is it recive weather_data from Oslo
-    It also uses udp insted of tcp to communicate.
+    It also uses UDP insted of TCP to communicate.
 
 # How to run code using terminal
 
@@ -26,12 +26,15 @@ INF142-Mandatory-Assignment-VET
        Start weather_station_bergen.py, weather_station_stavanger.py, weather_station_oslo.py 
        located in ..MA/Weather_stations.
     3. Then start the user client which is the file FMI.py located in ..MA/FMI.py
+       Then follow the instructions in the terminal.
 
 # How to run code using web application 
     
     TODO VILDE MÅ FYLLE INN HER!!!!!
 
 ###Authors 
-    - Vilde Emilie Søvik Haugstad
-    - Thomas Rimmereide 
     - Erlend Osland Nytveit
+    - Thomas Rimmereide
+    - Vilde Emilie Søvik Haugstad
+        
+ 
