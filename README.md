@@ -9,7 +9,7 @@ INF142-Mandatory-Assignment-VET
 
 # How it works 
 
-![alt text](https://raw.githubusercontent.com/thomasRimmereide/INF142-Mandatory-Assignment-VET/main/MA/system_overview.png?token=AQDSZ2PASMTDEY3DKWKOFUTAOCRBE)
+![alt text](https://github.com/thomasRimmereide/INF142-Mandatory-Assignment-VET/blob/main/MA/system_overview.png?raw=true)
     
     Storage_west is a database that recivie data periodically from weather_station Bergen and Stavanger.
     It stores the recived data to the file Bergen_WS.csv and Stavanger_WS.csv using the DMBS.
