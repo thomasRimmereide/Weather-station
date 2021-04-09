@@ -11,13 +11,13 @@ b = {"day_bergen": 1, "month_bergen": "May", "year_bergen": 1981}
 def save_today_date(today_date=dict()):
     d = update_today_date()
     d.update(today_date)
-    file = open("current_date.pickle", "wb")
+    file = open("../Database_files/current_date.pickle", "wb")
     pickle.dump(d, file)
     file.close()
 
 
 def update_today_date():
-    with open("current_date.pickle", "rb") as data:
+    with open("../Database_files/current_date.pickle", "rb") as data:
         today = data.read()
     d = pickle.loads(today)
     return d

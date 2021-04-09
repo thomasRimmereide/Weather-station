@@ -2,7 +2,8 @@ import pandas as pd
 
 
 def put(weather_station_data, type_of_client):
-    database_name = type_of_client+".csv"
+    database_name = "../Database_files/"+type_of_client+".csv"
+    print(type_of_client[0])
     """Put data from weather_station into database"""
     dataframe = pd.concat([pd.Series(v, name=k) for k, v in weather_station_data.items()], axis=1)
     dataframe = dataframe.fillna("-")
@@ -30,13 +31,13 @@ def get_period(start_date: str, end_data: str, database):
 
 def new_database():
     """Emptying the database"""
-    database = open("Bergen_WS.csv", 'r+')
+    database = open("../Database_files/Bergen_WS.csv", 'r+')
     database.truncate(0)
     database.close()
 
 
 def get_request(com_request: list):
-    database_name = com_request[0].capitalize()+"_WS.csv"
+    database_name = "../Database_files/"+com_request[0].capitalize()+"_WS.csv"
     entire_database = pd.read_csv(database_name)
     if 'all' in com_request:
         return entire_database

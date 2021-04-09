@@ -1,6 +1,6 @@
 from time import sleep
 
-from station import StationSimulator
+from MA.Help_functions.station import StationSimulator
 
 if __name__ == "__main__":
 

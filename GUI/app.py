@@ -11,7 +11,7 @@ def index():
 # /city/bergen
 @app.route('/city/<city_name>')
 def get_city_weather_data(city_name):
-    file = open("../MA/Oslo_WS.csv", "r")
+    file = open("../MA/Database_files/Oslo_WS.csv", "r")
 
     test_data = []
     for line in file.readlines()[1:]:

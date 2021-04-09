@@ -1,7 +1,7 @@
 import pickle
 from socket import AF_INET, SOCK_DGRAM, socket
 from _thread import start_new_thread
-import DBMS as db
+import MA.Help_functions.DBMS as db
 
 
 host = "localhost"
@@ -12,9 +12,7 @@ ServerSock.bind((host, port))
 
 
 def threaded_server(connected_client):
-    print(connected_client)
     received = pickle.loads(connected_client)
-    print(type(received))
     if isinstance(received, dict):
         db.put(received, "Oslo_WS")
     elif isinstance(received, list):
@@ -23,6 +21,8 @@ def threaded_server(connected_client):
     else:
         print("error, do not recognize type")
 
+
+print("Storage east server has started")
 
 while True:
     data, addr = ServerSock.recvfrom(2048)
