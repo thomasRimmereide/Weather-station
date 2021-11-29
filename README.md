@@ -1,5 +1,3 @@
-INF142-Mandatory-Assignment-VET
-
 # Library's needed to run the code  
     - pickle  - Is used to code and decode data fro transmission througt the socket
     - socket  - Is used to create and handle python sockets 
